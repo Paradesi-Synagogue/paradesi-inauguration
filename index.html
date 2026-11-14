@@ -354,7 +354,7 @@ function msgsCard(n, title, emptyTxt){
   let seen = []; try{ seen = JSON.parse(localStorage.getItem("pi_seen")||"[]"); }catch(e){}
   const id = x => (x.he||"").slice(0,200), fresh = list.filter(x=>!seen.includes(id(x))).length;
   if(fresh) setTimeout(()=>{ try{ const all=[...new Set([...seen, ...list.map(id)])].slice(-300); localStorage.setItem("pi_seen",JSON.stringify(all)); }catch(e){} },6000);
-  const one = x => `<div class="m${seen.includes(id(x))?"":" new"}">${seen.includes(id(x))?"":`<span class="newpill">${t(UI.newMsg)}</span> `}${esc(t(x))}${x.until?`<span class="until">${t(UI.until)} ${esc(x.until)}</span>`:""}</div>`;
+  const one = x => `<div class="m${seen.includes(id(x))?"":" new"}">${seen.includes(id(x))?"":`<span class="newpill">${t(UI.newMsg)}</span> `}${esc(t(x))}${(x.at||x.until)?`<span class="until">${x.at?`🕒 <bdi dir="ltr">${esc(x.at)}</bdi>`:""}${x.at&&x.until?" · ":""}${x.until?`${t(UI.until)} <bdi dir="ltr">${esc(x.until)}</bdi>`:""}</span>`:""}</div>`;
   const head = list.slice(0,MAX).map(one).join(""), rest = list.slice(MAX);
   return `<div class="card msgs hot" role="status"><h3><span class="bell">🔔</span>${t(title)}${fresh?` <span class="newpill">${fresh} ${t(fresh===1?UI.newMsg:UI.newMsgs)}</span>`:""}</h3>
   ${head}${rest.length?`<details class="more"><summary>${t(UI.olderMsgs)} (${rest.length})</summary>${rest.map(one).join("")}</details>`:""}</div>`;
