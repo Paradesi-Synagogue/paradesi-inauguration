@@ -190,8 +190,7 @@ ul.clean{margin:0;padding-inline-start:20px} ul.clean li{margin:5px 0}
 @keyframes pulse{50%{opacity:.55}}
 .msgs.hot .m.new{background:rgba(255,255,255,.24);box-shadow:inset 3px 0 0 #fff}
 .msgs.hot .more summary{color:#fff;font-weight:500;cursor:pointer;margin-top:10px;font-size:.92rem;opacity:.9}
-.qrdesk{display:none}
-@media (min-width:900px) and (hover:hover){.qrdesk{display:flex;gap:14px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line,#ddd)}.qrdesk img{width:120px;height:120px;border-radius:8px;background:#fff}}
+.qrdesk{display:flex;gap:14px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line,#ddd)}.qrdesk img{width:110px;height:110px;flex:none;border-radius:8px;background:#fff}
 @media (prefers-reduced-motion:reduce){.msgs.hot .bell,.msgs .newpill{animation:none}}
 .locked{display:flex;gap:12px;align-items:center;background:var(--today-bg);border-radius:12px;padding:12px 14px;font-size:.92rem}
 .pager{display:flex;justify-content:space-between;gap:10px}
@@ -306,7 +305,7 @@ const UI = {
   route:{he:"המסלול שלנו",en:"Our route"}, routeSub:{he:"10 תחנות וכ־3,440 ק״מ, רובם ברכבת הפרטית שלנו",en:"10 stops and about 3,440 km, mostly on our private train"}, mizmor:{he:"מזמור לתודה",en:"A Psalm of Thanksgiving"}, prayerNote:{he:"אומרים פעם ביום, כשיוצאים לדרך מחוץ לעיר.",en:"Said once a day, when setting out on a journey outside the city."},
   anthem:{he:"ההמנון הלאומי של הודו · ג׳נה גנה מנה",en:"India’s national anthem · Jana Gana Mana"}, anthemNote:{he:"מילים: רבינדרנת טאגור. השירה נמשכת כ־52 שניות. כשמנגנים את ההמנון עומדים בשקט, מתוך כבוד.",en:"Words by Rabindranath Tagore. Singing it takes about 52 seconds. When the anthem plays, we stand quietly out of respect."}, meaning:{he:"מה פירוש המילים?",en:"What do the words mean?"}, listenAnthem:{he:"להאזנה למנגינה",en:"Listen to the melody"},
   newMsg:{he:"חדש",en:"New"}, newMsgs:{he:"חדשות",en:"new"}, olderMsgs:{he:"הודעות קודמות",en:"Earlier messages"}, until:{he:"בתוקף עד",en:"Valid until"},
-  qrH:{he:"פותחים בטלפון",en:"Open on your phone"}, qrP:{he:"סורקים את הקוד עם מצלמת הטלפון, והאתר נפתח שם.",en:"Scan this code with your phone camera to open the site there."},
+  qrH:{he:"קוד QR לאתר",en:"QR code for the site"}, qrP:{he:"במחשב: סורקים עם הטלפון והאתר נפתח בו. בטלפון: מראים לחבר, והוא סורק.",en:"On a computer: scan with your phone to open it there. On a phone: show it to a friend to scan."},
   homeMsgs:{he:"הודעות למטיילים",en:"Messages for travelers"}, noHomeMsgs:{he:"אין הודעות חדשות כרגע. עדכונים חשובים יופיעו כאן.",en:"No new messages right now. Important updates will appear here."},
   msgsTitle:{he:"הודעות ליום הזה",en:"Messages for this day"}, noMsgs:{he:"אין הודעות כרגע. עדכונים כמו שעת יציאה בבוקר יופיעו כאן.",en:"No messages yet. Updates like the morning departure time will appear here."},
   song:{he:"השיר של המסע",en:"The journey song"}, songDesc:{he:"השיר של בניה ברבי",en:"The song by Benaia Barabi"}, listen:{he:"להאזנה ביוטיוב",en:"Listen on YouTube"},
