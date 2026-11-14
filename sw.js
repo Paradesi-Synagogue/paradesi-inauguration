@@ -1,5 +1,5 @@
 // Simple offline support: app shell cached, network first for everything else.
-const CACHE = "paradesi-v2";
+const CACHE = "paradesi-v3";
 const SHELL = ["./", "./index.html", "./data.js", "./logo.svg", "./manifest.webmanifest",
   "./img/hero.jpg", "./img/garden.jpg", "./img/invitation.jpg", "./img/synagogue.jpg",
   "./img/day1.jpg","./img/day2.jpg","./img/day3.jpg","./img/day4.jpg","./img/day5.jpg","./img/day6.jpg","./img/day7.jpg","./img/day8.jpg",

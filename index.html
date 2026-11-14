@@ -188,6 +188,10 @@ ul.clean{margin:0;padding-inline-start:20px} ul.clean li{margin:5px 0}
 .msgs.hot .until{display:block;font-size:.78rem;opacity:.85;margin-top:4px;font-weight:400}
 .msgs .newpill{background:#fff;color:#c9561f;font-size:.72rem;font-weight:700;border-radius:99px;padding:2px 9px;animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.55}}
+.msgs.hot .m.new{background:rgba(255,255,255,.24);box-shadow:inset 3px 0 0 #fff}
+.msgs.hot .more summary{color:#fff;font-weight:500;cursor:pointer;margin-top:10px;font-size:.92rem;opacity:.9}
+.qrdesk{display:none}
+@media (min-width:900px) and (hover:hover){.qrdesk{display:flex;gap:14px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line,#ddd)}.qrdesk img{width:120px;height:120px;border-radius:8px;background:#fff}}
 @media (prefers-reduced-motion:reduce){.msgs.hot .bell,.msgs .newpill{animation:none}}
 .locked{display:flex;gap:12px;align-items:center;background:var(--today-bg);border-radius:12px;padding:12px 14px;font-size:.92rem}
 .pager{display:flex;justify-content:space-between;gap:10px}
@@ -301,7 +305,8 @@ const UI = {
   rights:{he:"כל הזכויות שמורות",en:"All rights reserved"},
   route:{he:"המסלול שלנו",en:"Our route"}, routeSub:{he:"10 תחנות וכ־3,440 ק״מ, רובם ברכבת הפרטית שלנו",en:"10 stops and about 3,440 km, mostly on our private train"}, mizmor:{he:"מזמור לתודה",en:"A Psalm of Thanksgiving"}, prayerNote:{he:"אומרים פעם ביום, כשיוצאים לדרך מחוץ לעיר.",en:"Said once a day, when setting out on a journey outside the city."},
   anthem:{he:"ההמנון הלאומי של הודו · ג׳נה גנה מנה",en:"India’s national anthem · Jana Gana Mana"}, anthemNote:{he:"מילים: רבינדרנת טאגור. השירה נמשכת כ־52 שניות. כשמנגנים את ההמנון עומדים בשקט, מתוך כבוד.",en:"Words by Rabindranath Tagore. Singing it takes about 52 seconds. When the anthem plays, we stand quietly out of respect."}, meaning:{he:"מה פירוש המילים?",en:"What do the words mean?"}, listenAnthem:{he:"להאזנה למנגינה",en:"Listen to the melody"},
-  newMsg:{he:"חדש",en:"New"}, until:{he:"בתוקף עד",en:"Valid until"},
+  newMsg:{he:"חדש",en:"New"}, newMsgs:{he:"חדשות",en:"new"}, olderMsgs:{he:"הודעות קודמות",en:"Earlier messages"}, until:{he:"בתוקף עד",en:"Valid until"},
+  qrH:{he:"פותחים בטלפון",en:"Open on your phone"}, qrP:{he:"סורקים את הקוד עם מצלמת הטלפון, והאתר נפתח שם.",en:"Scan this code with your phone camera to open the site there."},
   homeMsgs:{he:"הודעות למטיילים",en:"Messages for travelers"}, noHomeMsgs:{he:"אין הודעות חדשות כרגע. עדכונים חשובים יופיעו כאן.",en:"No new messages right now. Important updates will appear here."},
   msgsTitle:{he:"הודעות ליום הזה",en:"Messages for this day"}, noMsgs:{he:"אין הודעות כרגע. עדכונים כמו שעת יציאה בבוקר יופיעו כאן.",en:"No messages yet. Updates like the morning departure time will appear here."},
   song:{he:"השיר של המסע",en:"The journey song"}, songDesc:{he:"השיר של בניה ברבי",en:"The song by Benaia Barabi"}, listen:{he:"להאזנה ביוטיוב",en:"Listen on YouTube"},
@@ -344,12 +349,15 @@ const planFor = d => (live.schedule && live.schedule[d.n] && live.schedule[d.n].
 // ---- messages card (sheet tab "עדכונים") ----
 const notesFor = n => { const v = live.notes && live.notes[n]; return !v ? [] : (Array.isArray(v) ? v : [v]); };
 function msgsCard(n, title, emptyTxt){
-  const list = notesFor(n);
+  const list = notesFor(n), MAX = 3;
   if(!list.length) return `<div class="card msgs"><h3>📣 ${t(title)}</h3><p class="muted" style="margin:0">${t(emptyTxt)}</p></div>`;
-  const key = "pi_seen_"+n, sig = JSON.stringify(list.map(x=>x.he));
-  let isNew = false; try{ isNew = localStorage.getItem(key)!==sig; if(isNew) setTimeout(()=>{ try{localStorage.setItem(key,sig);}catch(e){} },5000); }catch(e){}
-  return `<div class="card msgs hot" role="status"><h3><span class="bell">🔔</span>${t(title)}${isNew?` <span class="newpill">${t(UI.newMsg)}</span>`:""}</h3>
-  ${list.map(x=>`<div class="m">${esc(t(x))}${x.until?`<span class="until">${t(UI.until)} ${esc(x.until)}</span>`:""}</div>`).join("")}</div>`;
+  let seen = []; try{ seen = JSON.parse(localStorage.getItem("pi_seen")||"[]"); }catch(e){}
+  const id = x => (x.he||"").slice(0,200), fresh = list.filter(x=>!seen.includes(id(x))).length;
+  if(fresh) setTimeout(()=>{ try{ const all=[...new Set([...seen, ...list.map(id)])].slice(-300); localStorage.setItem("pi_seen",JSON.stringify(all)); }catch(e){} },6000);
+  const one = x => `<div class="m${seen.includes(id(x))?"":" new"}">${seen.includes(id(x))?"":`<span class="newpill">${t(UI.newMsg)}</span> `}${esc(t(x))}${x.until?`<span class="until">${t(UI.until)} ${esc(x.until)}</span>`:""}</div>`;
+  const head = list.slice(0,MAX).map(one).join(""), rest = list.slice(MAX);
+  return `<div class="card msgs hot" role="status"><h3><span class="bell">🔔</span>${t(title)}${fresh?` <span class="newpill">${fresh} ${t(fresh===1?UI.newMsg:UI.newMsgs)}</span>`:""}</h3>
+  ${head}${rest.length?`<details class="more"><summary>${t(UI.olderMsgs)} (${rest.length})</summary>${rest.map(one).join("")}</details>`:""}</div>`;
 }
 
 // ---- countdown ----
@@ -420,7 +428,7 @@ function viewHome(){
   ${`<div class="card install" id="installCard" ${isStandalone()?"hidden":""}><div class="zem"><div class="cv" style="background:linear-gradient(160deg,var(--saffron),#c96a17);color:#fff">📲</div><div style="min-width:0"><h2 style="font-size:1.25rem">${t(UI.install)}</h2>
  <p class="muted" style="margin:4px 0 8px;font-size:.9rem">${t(UI.installSub)}</p>
  ${deferredPrompt?`<button class="btn saffron" type="button" id="installBtn">⬇️ ${t(UI.installBtn)}</button>`:""}
- <details><summary>${t(UI.howto)}</summary><p style="margin:6px 0"><b>🍎 iPhone:</b> ${t(UI.ios)}</p><p style="margin:6px 0"><b>🤖 Android:</b> ${t(UI.android)}</p></details></div></div></div>`}` + note + about + `
+ <div class="qrdesk"><img src="img/qr.svg" alt="QR"><div><b>${t(UI.qrH)}</b><p class="muted" style="margin:4px 0 0;font-size:.88rem">${t(UI.qrP)}</p></div></div><details><summary>${t(UI.howto)}</summary><p style="margin:6px 0"><b>🍎 iPhone:</b> ${t(UI.ios)}</p><p style="margin:6px 0"><b>🤖 Android:</b> ${t(UI.android)}</p></details></div></div></div>`}` + note + about + `
   <div class="section-head"><div class="eyebrow">${t(UI.chooseWeek)}</div></div>
   <div class="weeks">${T.weeks.map(w=>`<a class="week" href="#week-${w.id}"><img src="${w.id===1?"img/day4.jpg":"img/garden.jpg"}" alt=""><div class="tx" style="width:100%"><b>${esc(t(w))}</b><small>${esc(t(w.sub))}</small>${w.id===1?`<div class="trainwrap">${TRAIN_SVG}</div>`:""}</div></a>`).join("")}</div>
 
