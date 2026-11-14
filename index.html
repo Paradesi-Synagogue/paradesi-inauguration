@@ -190,7 +190,7 @@ ul.clean{margin:0;padding-inline-start:20px} ul.clean li{margin:5px 0}
 @keyframes pulse{50%{opacity:.55}}
 .msgs.hot .m.new{background:rgba(255,255,255,.24);box-shadow:inset 3px 0 0 #fff}
 .msgs.hot .more summary{color:#fff;font-weight:500;cursor:pointer;margin-top:10px;font-size:.92rem;opacity:.9}
-.qrdesk{display:flex;gap:14px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line,#ddd)}.qrdesk img{width:110px;height:110px;flex:none;border-radius:8px;background:#fff}
+.qrcard{display:flex;gap:16px;align-items:center}.qrcard img{width:120px;height:120px;flex:none;border-radius:10px;background:#fff;border:1px solid #e3e8ef;padding:4px}
 @media (prefers-reduced-motion:reduce){.msgs.hot .bell,.msgs .newpill{animation:none}}
 .locked{display:flex;gap:12px;align-items:center;background:var(--today-bg);border-radius:12px;padding:12px 14px;font-size:.92rem}
 .pager{display:flex;justify-content:space-between;gap:10px}
@@ -305,6 +305,7 @@ const UI = {
   route:{he:"המסלול שלנו",en:"Our route"}, routeSub:{he:"10 תחנות וכ־3,440 ק״מ, רובם ברכבת הפרטית שלנו",en:"10 stops and about 3,440 km, mostly on our private train"}, mizmor:{he:"מזמור לתודה",en:"A Psalm of Thanksgiving"}, prayerNote:{he:"אומרים פעם ביום, כשיוצאים לדרך מחוץ לעיר.",en:"Said once a day, when setting out on a journey outside the city."},
   anthem:{he:"ההמנון הלאומי של הודו · ג׳נה גנה מנה",en:"India’s national anthem · Jana Gana Mana"}, anthemNote:{he:"מילים: רבינדרנת טאגור. השירה נמשכת כ־52 שניות. כשמנגנים את ההמנון עומדים בשקט, מתוך כבוד.",en:"Words by Rabindranath Tagore. Singing it takes about 52 seconds. When the anthem plays, we stand quietly out of respect."}, meaning:{he:"מה פירוש המילים?",en:"What do the words mean?"}, listenAnthem:{he:"להאזנה למנגינה",en:"Listen to the melody"},
   newMsg:{he:"חדש",en:"New"}, newMsgs:{he:"חדשות",en:"new"}, olderMsgs:{he:"הודעות קודמות",en:"Earlier messages"}, until:{he:"בתוקף עד",en:"Valid until"},
+  share:{he:"שיתוף הקישור",en:"Share the link"},
   qrH:{he:"קוד QR לאתר",en:"QR code for the site"}, qrP:{he:"במחשב: סורקים עם הטלפון והאתר נפתח בו. בטלפון: מראים לחבר, והוא סורק.",en:"On a computer: scan with your phone to open it there. On a phone: show it to a friend to scan."},
   homeMsgs:{he:"הודעות למטיילים",en:"Messages for travelers"}, noHomeMsgs:{he:"אין הודעות חדשות כרגע. עדכונים חשובים יופיעו כאן.",en:"No new messages right now. Important updates will appear here."},
   msgsTitle:{he:"הודעות ליום הזה",en:"Messages for this day"}, noMsgs:{he:"אין הודעות כרגע. עדכונים כמו שעת יציאה בבוקר יופיעו כאן.",en:"No messages yet. Updates like the morning departure time will appear here."},
@@ -388,6 +389,7 @@ const TRAIN_SVG = (()=>{
 let deferredPrompt=null;
 const isStandalone=()=>{ try{ return matchMedia("(display-mode: standalone)").matches || navigator.standalone===true; }catch(e){ return false; } };
 window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; if(!location.hash||location.hash==="#home") render(); });
+document.addEventListener("click",e=>{ if(e.target.closest("#shareBtn")) navigator.share({title:document.title,url:"https://paradesi-synagogue.github.io/paradesi-inauguration/"}).catch(()=>{}); });
 document.addEventListener("click",async e=>{ if(e.target.closest("#installBtn")&&deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice.catch(()=>{}); deferredPrompt=null; render(); } });
 if("serviceWorker" in navigator && location.protocol==="https:"){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
 // ---- views ----
@@ -427,7 +429,7 @@ function viewHome(){
   ${`<div class="card install" id="installCard" ${isStandalone()?"hidden":""}><div class="zem"><div class="cv" style="background:linear-gradient(160deg,var(--saffron),#c96a17);color:#fff">📲</div><div style="min-width:0"><h2 style="font-size:1.25rem">${t(UI.install)}</h2>
  <p class="muted" style="margin:4px 0 8px;font-size:.9rem">${t(UI.installSub)}</p>
  ${deferredPrompt?`<button class="btn saffron" type="button" id="installBtn">⬇️ ${t(UI.installBtn)}</button>`:""}
- <div class="qrdesk"><img src="img/qr.svg" alt="QR"><div><b>${t(UI.qrH)}</b><p class="muted" style="margin:4px 0 0;font-size:.88rem">${t(UI.qrP)}</p></div></div><details><summary>${t(UI.howto)}</summary><p style="margin:6px 0"><b>🍎 iPhone:</b> ${t(UI.ios)}</p><p style="margin:6px 0"><b>🤖 Android:</b> ${t(UI.android)}</p></details></div></div></div>`}` + note + about + `
+ <details><summary>${t(UI.howto)}</summary><p style="margin:6px 0"><b>🍎 iPhone:</b> ${t(UI.ios)}</p><p style="margin:6px 0"><b>🤖 Android:</b> ${t(UI.android)}</p></details></div></div></div>`}` + note + `<div class="card qrcard"><img src="img/qr.svg" alt="QR"><div style="min-width:0"><h2 style="font-size:1.2rem">📱 ${t(UI.qrH)}</h2><p class="muted" style="margin:4px 0 8px;font-size:.88rem">${t(UI.qrP)}</p>${navigator.share?`<button class="btn ghost" type="button" id="shareBtn">🔗 ${t(UI.share)}</button>`:""}</div></div>` + about + `
   <div class="section-head"><div class="eyebrow">${t(UI.chooseWeek)}</div></div>
   <div class="weeks">${T.weeks.map(w=>`<a class="week" href="#week-${w.id}"><img src="${w.id===1?"img/day4.jpg":"img/garden.jpg"}" alt=""><div class="tx" style="width:100%"><b>${esc(t(w))}</b><small>${esc(t(w.sub))}</small>${w.id===1?`<div class="trainwrap">${TRAIN_SVG}</div>`:""}</div></a>`).join("")}</div>
 
