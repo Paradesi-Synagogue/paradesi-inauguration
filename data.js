@@ -6,7 +6,7 @@
 
 window.CONFIG = {
   // Paste the Apps Script web-app URL here after setup (see apps-script/SETUP.md)
-  SCRIPT_URL: "",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbw_Rs1GrtL2eFEoGAGKtJTmfcQp0BzKV2F4XmUX7Gi6SysRzAcxTkATTmN7UcXrsM3r/exec",
   TIMEZONE: "Asia/Kolkata",
   GALLERY_OPEN_HOUR: 20,   // photos of a day open at this hour (India time)
   FLIGHT_DATE: "2026-11-26",
