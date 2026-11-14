@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Paradesi Inauguration · פרדסי</title>
+<meta name="description" content="פתיחת המוזיאון הפרדסי בקוצ׳י ומסע פרדסי אקספרס בהודו 2026">
+<meta name="theme-color" content="#0f2f4d">
+<link rel="icon" href="logo.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Paradesi">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: photo hero with live countdown, sticky tab bar, day cards with booklet photos on a jali-patterned ground */
+:root{
+  --deep:#0f2f4d; --navy:#184c78; --saffron:#e8892b; --marigold:#f3b23a; --peacock:#0f7c86; --rose:#b8325f;
+  --bg:#eef2f7; --card:#ffffff; --ink:#18232f; --muted:#5b6878; --line:#dbe3ec; --today-bg:#fff6e8;
+  --pattern:rgba(24,76,120,.07); --tabbar:#ffffffee;
+  --display:"Frank Ruhl Libre",Georgia,"Times New Roman",serif; --body:"Rubik",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --r:16px; --shadow:0 1px 2px rgba(15,47,77,.06),0 8px 24px rgba(15,47,77,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#0b1520; --card:#132131; --ink:#e7edf3; --muted:#9fb0c1; --line:#243649; --today-bg:#2b2112; --pattern:rgba(120,170,220,.06); --tabbar:#0f1c2bee; --navy:#6aa6dc; color-scheme:dark }
+}
+:root[data-theme="dark"]{ --bg:#0b1520; --card:#132131; --ink:#e7edf3; --muted:#9fb0c1; --line:#243649; --today-bg:#2b2112; --pattern:rgba(120,170,220,.06); --tabbar:#0f1c2bee; --navy:#6aa6dc; color-scheme:dark }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--body);color:var(--ink);line-height:1.6;-webkit-text-size-adjust:100%;
+  background-color:var(--bg);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23184c78' stroke-opacity='.08' stroke-width='1.2'%3E%3Cpath d='M28 4l24 24-24 24L4 28z'/%3E%3Ccircle cx='28' cy='28' r='9'/%3E%3Cpath d='M28 0v8M28 48v8M0 28h8M48 28h8'/%3E%3C/g%3E%3C/svg%3E");}
+a{color:var(--navy)}
+:focus-visible{outline:3px solid var(--marigold);outline-offset:2px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;color:#fff;background:var(--deep);overflow:hidden}
+.hero .bg{position:absolute;inset:0;background:url(img/hero.jpg) center 30%/cover no-repeat;opacity:.75}
+.hero .flags{position:absolute;inset:auto 0 0 0;height:6px;z-index:2;display:flex}
+.hero .flags i{flex:1}
+.flagbg{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.flagbg .fl{position:absolute;bottom:0;width:50%;height:42%;opacity:.22;-webkit-mask:linear-gradient(0deg,#000 20%,transparent 100%);mask:linear-gradient(0deg,#000 20%,transparent 100%)}
+.flagbg .fl svg{width:100%;height:100%;display:block}
+.flagbg .il{right:0}
+.flagbg .in{left:0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,47,77,.55) 0%,rgba(15,47,77,.35) 30%,rgba(15,47,77,.8) 70%,#0f2f4d 100%)}
+.hero .in{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 26px max(16px,env(safe-area-inset-left,0px))}
+.topline{display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:58px;background:#fff;-webkit-mask:url(logo.svg) center/contain no-repeat;mask:url(logo.svg) center/contain no-repeat;flex:none}
+.topline .org{font-size:.78rem;opacity:.9;line-height:1.3}
+.lang{margin-inline-start:auto;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:7px 16px;font:500 .85rem var(--body);cursor:pointer;backdrop-filter:blur(6px)}
+.hero h1{font-family:var(--display);font-weight:900;font-size:clamp(2.1rem,7vw,3.4rem);line-height:1.05;margin:26px 0 6px;letter-spacing:.01em;text-wrap:balance}
+.hero h1 span{color:var(--marigold)}
+.hero .sub{font-size:1.02rem;opacity:.95;margin:0}
+.hero .sub2{font-size:.85rem;opacity:.75;margin:4px 0 0}
+.cd{margin-top:20px}
+.cd .lbl{font-size:.85rem;letter-spacing:.04em;opacity:.9;margin-bottom:8px}
+.cd .tiles{display:flex;gap:8px;direction:ltr;justify-content:flex-start}
+[dir="rtl"] .cd .tiles{justify-content:flex-end;flex-direction:row}
+.tile{min-width:64px;padding:10px 6px 8px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);text-align:center;backdrop-filter:blur(8px)}
+.tile b{display:block;font-family:var(--display);font-size:1.9rem;line-height:1;font-variant-numeric:tabular-nums}
+.tile small{display:block;font-size:.68rem;opacity:.85;margin-top:4px;letter-spacing:.03em}
+.tile.hl{background:var(--saffron);border-color:var(--saffron)}
+
+/* ---------- tabs ---------- */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--tabbar);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--deep)}
+nav.tabs .in{display:flex;gap:2px;overflow-x:auto;max-width:900px;margin:0 auto;padding:0 max(10px,env(safe-area-inset-right,0px)) 0 max(10px,env(safe-area-inset-left,0px));scrollbar-width:none}
+nav.tabs .in::-webkit-scrollbar{display:none}
+nav.tabs a{color:var(--muted);text-decoration:none;padding:13px 12px 11px;white-space:nowrap;font-weight:500;font-size:.93rem;border-bottom:3px solid transparent}
+nav.tabs a.on{color:var(--navy);border-bottom-color:var(--saffron)}
+
+main{max-width:900px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 50px max(16px,env(safe-area-inset-left,0px))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:0 0 16px;box-shadow:var(--shadow)}
+h2{font-family:var(--display);font-size:1.6rem;line-height:1.2;margin:0 0 4px;color:var(--navy);text-wrap:balance}
+h3{font-size:1.05rem;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--saffron)}
+.section-head{margin:26px 0 12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:#fff;border:0;border-radius:12px;padding:12px 18px;font:500 1rem var(--body);text-decoration:none;cursor:pointer}
+.btn.saffron{background:var(--saffron)}
+.btn.ghost{background:transparent;color:var(--navy);border:1.5px solid var(--line)}
+.btn.block{width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* today */
+.today{position:relative;overflow:hidden;border-radius:var(--r);background:var(--card);border:2px solid var(--saffron);box-shadow:0 10px 30px rgba(232,137,43,.25);margin-bottom:18px;text-decoration:none;color:inherit;display:block}
+.today img{width:100%;height:150px;object-fit:cover;display:block}
+.today .tx{padding:14px 16px 16px}
+.live{display:inline-flex;align-items:center;gap:6px;background:var(--saffron);color:#fff;border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:600}
+.live i{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.8)}70%{box-shadow:0 0 0 8px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+@media (prefers-reduced-motion:reduce){.live i{animation:none}}
+
+/* week chooser */
+.weeks{display:grid;grid-template-columns:1fr;gap:14px}
+.week{position:relative;border-radius:var(--r);overflow:hidden;color:#fff;text-decoration:none;min-height:170px;display:flex;align-items:flex-end;box-shadow:var(--shadow)}
+.week img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.week::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,47,77,0) 20%,rgba(15,47,77,.92) 100%)}
+.week .tx{position:relative;z-index:1;padding:16px}
+.week b{font-family:var(--display);font-size:1.45rem;display:block;line-height:1.15}
+.week small{opacity:.9}
+@media (min-width:640px){.weeks{grid-template-columns:1fr 1fr}}
+
+/* day cards */
+.days{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:640px){.days{grid-template-columns:1fr 1fr}}
+.day{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-decoration:none;color:inherit;box-shadow:var(--shadow);transition:transform .15s}
+.day:hover{transform:translateY(-2px)}
+.day .ph{position:relative;height:110px;background:var(--deep)}
+.day .ph img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block}
+.day .badge{position:absolute;top:10px;inset-inline-start:10px;background:var(--card);color:var(--navy);border-radius:10px;padding:4px 10px;font-weight:600;font-size:.82rem;box-shadow:var(--shadow)}
+.day .tx{padding:12px 14px 14px;min-width:0}
+.day b{display:block;font-size:1.02rem;line-height:1.35}
+.day .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
+.day.is-today{border:2px solid var(--saffron);background:var(--today-bg)}
+.day.star .badge{background:var(--rose);color:#fff}
+.chip{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--saffron);color:#fff;margin-inline-start:6px;vertical-align:2px}
+.chip.rose{background:var(--rose)} .chip.peacock{background:var(--peacock)}
+
+.trainwrap{position:relative;overflow:hidden;height:54px;margin-top:10px}
+.train{position:absolute;bottom:0;height:50px;width:auto;animation:ride 18s linear infinite}
+[dir="ltr"] .train{animation-name:rideltr}
+[dir="rtl"] .train{transform:scaleX(-1);animation-name:ridertl}
+@keyframes rideltr{from{left:-110%}to{left:100%}}
+@keyframes ridertl{from{right:-110%}to{right:100%}}
+@media (prefers-reduced-motion:reduce){.train{animation:none;left:0;right:auto}}
+.about h2{font-size:1.7rem;margin-top:2px}
+.lead{font-size:1.02rem;line-height:1.75}
+.aboutgrid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+.ab{display:flex;gap:12px;align-items:flex-start;background:var(--bg);border-radius:12px;padding:10px}
+.ab img{width:84px;height:84px;object-fit:cover;border-radius:10px;flex:none;max-width:100%}
+.ab div{min-width:0}.ab p{margin:4px 0 0;font-size:.92rem;color:var(--muted);line-height:1.55}
+@media (min-width:720px){.aboutgrid{grid-template-columns:1fr 1fr 1fr}.ab{flex-direction:column}.ab img{width:100%;height:120px}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 6px}
+.stats div{background:linear-gradient(160deg,var(--navy),var(--deep));color:#fff;border-radius:14px;padding:12px 8px;text-align:center}
+.stats b{display:block;font-family:var(--display);font-size:1.5rem;color:var(--marigold);line-height:1.1}
+.stats small{font-size:.75rem;opacity:.9}
+.tgrid{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:640px){.tgrid{grid-template-columns:1fr 1fr}}
+.tgrid div{border-inline-start:3px solid var(--saffron);padding-inline-start:10px}
+.tgrid b{display:block}.tgrid span{font-size:.88rem;color:var(--muted)}
+ol.stations{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:1fr;gap:4px}
+@media (min-width:640px){ol.stations{grid-template-columns:1fr 1fr}}
+ol.stations a{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:10px;text-decoration:none;color:inherit}
+ol.stations a:hover{background:var(--bg)}
+ol.stations .sn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--deep);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:600}
+ol.stations small{margin-inline-start:auto;color:var(--muted);font-size:.78rem;white-space:nowrap}
+/* day page */
+.banner{position:relative;border-radius:var(--r);overflow:hidden;margin-bottom:16px;color:#fff;box-shadow:var(--shadow)}
+.banner img{width:100%;height:210px;object-fit:cover;display:block}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,47,77,.05) 25%,rgba(15,47,77,.9) 100%)}
+.banner .tx{position:absolute;inset:auto 0 0 0;z-index:1;padding:16px}
+.banner h2{color:#fff;font-size:1.7rem}
+.facts{display:grid;grid-template-columns:1fr;gap:8px;font-size:.95rem}
+.facts div{display:flex;gap:10px;align-items:flex-start}
+@media (min-width:640px){.facts{grid-template-columns:1fr 1fr}}
+.shab{display:flex;gap:10px;flex-wrap:wrap}
+.shab span{background:var(--today-bg);border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:.92rem}
+ol.plan{list-style:none;padding:0;margin:0;position:relative}
+ol.plan li{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:baseline}
+ol.plan li:last-child{border-bottom:0}
+ol.plan .dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--saffron);margin-top:7px;align-self:flex-start}
+ol.plan .t{flex:none;font-weight:600;color:var(--saffron);font-variant-numeric:tabular-nums;direction:ltr;min-width:48px}
+ul.clean{margin:0;padding-inline-start:20px} ul.clean li{margin:5px 0}
+.see p{margin:8px 0}
+.upload{background:linear-gradient(135deg,var(--navy),var(--deep));color:#fff;border:0}
+.upload h3{color:#fff}
+.upload .in{display:grid;gap:8px;margin:10px 0}
+.upload input[type=text]{width:100%;padding:11px 12px;border-radius:10px;border:0;font:inherit;background:rgba(255,255,255,.95);color:#18232f}
+.upload .btn{background:var(--saffron)}
+.upload .note{font-size:.82rem;opacity:.85;margin:10px 0 0}
+.upl-status{font-weight:500;margin-top:8px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px}
+.gallery a{position:relative;display:block;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--line);max-width:100%}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery input{position:absolute;top:6px;inset-inline-start:6px;width:20px;height:20px}
+.msgs.has{border:2px solid var(--saffron);background:var(--today-bg)}
+.msgs h3{display:flex;align-items:center;gap:8px;margin:0 0 6px}
+.msgs.hot{background:linear-gradient(150deg,#e8892b,#c9561f 70%,#b8325f);color:#fff;border:0;box-shadow:0 10px 28px -10px rgba(201,86,31,.65);position:relative;overflow:hidden}
+.msgs.hot h3{color:#fff;font-size:1.3rem}
+.msgs.hot .bell{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.22);font-size:1.2rem;animation:ring 2.4s ease-in-out infinite}
+@keyframes ring{0%,80%,100%{transform:rotate(0)}84%{transform:rotate(14deg)}88%{transform:rotate(-12deg)}92%{transform:rotate(8deg)}}
+.msgs.hot .m{background:rgba(255,255,255,.14);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:1.08rem;font-weight:500;line-height:1.5;white-space:pre-line}
+.msgs.hot .until{display:block;font-size:.78rem;opacity:.85;margin-top:4px;font-weight:400}
+.msgs .newpill{background:#fff;color:#c9561f;font-size:.72rem;font-weight:700;border-radius:99px;padding:2px 9px;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.msgs.hot .bell,.msgs .newpill{animation:none}}
+.locked{display:flex;gap:12px;align-items:center;background:var(--today-bg);border-radius:12px;padding:12px 14px;font-size:.92rem}
+.pager{display:flex;justify-content:space-between;gap:10px}
+
+/* checklists */
+.progress{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0 4px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--peacock),#22a3a0);width:0;transition:width .3s}
+.check{list-style:none;padding:0;margin:0}
+.check label{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--peacock);flex:none;margin-top:1px}
+.check input:checked+span{text-decoration:line-through;color:var(--muted)}
+.bag{display:grid;gap:10px}
+.bag div{display:flex;gap:12px;align-items:center;background:var(--bg);border-radius:12px;padding:10px 12px}
+.bag .ic{font-size:1.6rem;flex:none}
+
+.stepl{display:grid;gap:10px;margin-top:10px}
+.step{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;background:var(--bg)}
+.step .ic{font-size:1.5rem;flex:none}.step .sd{font-weight:600;color:var(--navy);font-size:.9rem}
+.step.imp{background:var(--today-bg);border:2px solid var(--saffron)}
+.step.now{background:var(--today-bg);outline:2px solid var(--saffron)}.step.past{opacity:.6}
+/* info */
+.words{width:100%;border-collapse:collapse;font-size:.95rem}
+.words td{padding:8px 4px;border-bottom:1px dashed var(--line)}
+.song{font-family:var(--display);font-size:1.12rem;line-height:1.9;white-space:pre-line}
+.zem{display:flex;gap:14px;align-items:center}
+.zem .cv{flex:none;width:64px;height:84px;border-radius:8px;background:linear-gradient(160deg,var(--navy),var(--deep));color:var(--marigold);display:grid;place-items:center;font-size:1.8rem}
+details{border-top:1px dashed var(--line);padding:10px 0}
+details summary{cursor:pointer;font-weight:600;color:var(--navy)}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:10px 16px 40px}
+footer .logo{background:var(--navy);margin:0 auto 8px;width:26px;height:44px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="flagbg" aria-hidden="true"><div class="fl il"><svg viewBox="0 0 30 21" preserveAspectRatio="xMidYMid slice"><rect width="30" height="21" fill="#fff"/><rect y="2.5" width="30" height="2.6" fill="#0038b8"/><rect y="15.9" width="30" height="2.6" fill="#0038b8"/><g fill="none" stroke="#0038b8" stroke-width="1"><path d="M15 6.3l3.3 5.7h-6.6z"/><path d="M15 14.7l3.3-5.7h-6.6z"/></g></svg></div><div class="fl in"><svg viewBox="0 0 30 21" preserveAspectRatio="xMidYMid slice"><rect width="30" height="7" fill="#ff9933"/><rect y="7" width="30" height="7" fill="#fff"/><rect y="14" width="30" height="7" fill="#138808"/><circle cx="15" cy="10.5" r="2.6" fill="none" stroke="#000080" stroke-width=".8"/><circle cx="15" cy="10.5" r=".6" fill="#000080"/></svg></div></div>
+  <div class="flags" aria-hidden="true"><i style="background:#0038b8"></i><i style="background:#fff"></i><i style="background:#0038b8"></i><i style="background:#ff9933"></i><i style="background:#fff"></i><i style="background:#138808"></i></div>
+  <div class="in">
+    <div class="topline">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="org" id="org"></div>
+      <button class="lang" id="langBtn" type="button">English</button>
+    </div>
+    <h1 id="h1"></h1>
+    <p class="sub" id="sub"></p>
+    <p class="sub2" id="sub2"></p>
+    <div class="cd" id="cd"></div>
+  </div>
+</header>
+<nav class="tabs"><div class="in" id="tabs"></div></nav>
+<main id="app"></main>
+<footer><div class="logo" aria-hidden="true"></div><div id="foot"></div></footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+const T = window.TRIP, C = window.CONFIG;
+let lang = "he"; try{ lang = localStorage.getItem("pe-lang") || "he"; }catch(e){}
+let live = { schedule:null, notes:{}, flight:null };
+
+const UI = {
+  org:{he:"בית הכנסת הפרדסי · קוצ׳י",en:"Paradesi Synagogue · Kochi"},
+  h1:{he:"פתיחת <span>מוזיאון הפרדסי</span>",en:"Paradesi <span>Inauguration</span>"},
+  sub:{he:"בית הכנסת הפרדסי בקוצ׳י · ומסע פרדסי אקספרס בהודו",en:"Opening of the Paradesi Synagogue Museum in Kochi · and the Pardesi Express journey across India"},
+  sub2:{he:"26.11 – 13.12.2026 · כסלו–טבת תשפ״ז",en:"26.11 – 13.12.2026"},
+  home:{he:"ראשי",en:"Home"}, before:{he:"לפני הטיסה",en:"Before we fly"},
+  w1:{he:"פרדסי אקספרס",en:"Pardesi Express"}, w2:{he:"שבוע פתיחת המוזיאון",en:"Museum opening week"}, info:{he:"מידע כללי",en:"General info"},
+  day:{he:"יום",en:"Day"}, today:{he:"היום",en:"Today"},
+  plan:{he:"הלו״ז",en:"Schedule"}, see:{he:"מה נראה",en:"What we'll see"}, wear:{he:"מה ללבוש",en:"What to wear"},
+  tbd:{he:"הלו״ז המפורט יעודכן כאן.",en:"The detailed schedule will be posted here."},
+  upTitle:{he:"העלאת תמונות מהיום הזה",en:"Upload your photos from this day"},
+  upBtn:{he:"בחירת תמונות (מהטלפון או מהמחשב)",en:"Choose photos (phone or computer)"}, dropHint:{he:"במחשב אפשר גם לגרור תמונות לכאן.",en:"On a computer you can also drag photos here."},
+  upSoon:{he:"ההעלאה תיפתח לפני הטיול. התמונות יישמרו אוטומטית בתיקייה של היום הזה.",en:"Uploading opens before the trip. Photos are saved automatically in this day's folder."},
+  yourName:{he:"השם שלך (לא חובה)",en:"Your name (optional)"}, placeEvent:{he:"מקום / אירוע (לא חובה)",en:"Place / event (optional)"},
+  sending:{he:"מעלה",en:"Uploading"}, done:{he:"תודה! התמונות הועלו ✓",en:"Thank you! Photos uploaded ✓"},
+  failed:{he:"חלק מהתמונות לא עלו. נסו שוב או שלחו בוואטסאפ.",en:"Some photos didn't upload. Try again or send them on WhatsApp."},
+  galTitle:{he:"התמונות של היום",en:"Photos from this day"},
+  locked:{he:"מטעמי ביטחון, התמונות של היום ייפתחו לצפייה הערב בשעה 20:00 (שעון הודו). בבקשה לא לפרסם ברשתות את המקום שבו אנחנו נמצאים באותו יום.",en:"For security, today's photos open for viewing this evening at 20:00 (India time). Please don't post our location on social media on the same day."},
+  future:{he:"התמונות ייפתחו לצפייה בערב של אותו יום, בשעה 20:00.",en:"Photos open for viewing on the evening of that day, at 20:00."},
+  noPhotos:{he:"עדיין אין תמונות.",en:"No photos yet."}, download:{he:"הורדת התמונות שסומנו",en:"Download selected"},
+  cdFlight:{he:"עד הטיסה להודו",en:"Until we fly to India"}, cdMuseum:{he:"עד פתיחת המוזיאון",en:"Until the museum opens"},
+  d:{he:"ימים",en:"days"}, h:{he:"שעות",en:"hours"}, m:{he:"דקות",en:"min"}, s:{he:"שניות",en:"sec"},
+  nowOn:{he:"עכשיו בטיול",en:"Now on the trip"}, open:{he:"לעמוד של היום",en:"Open today's page"},
+  ended:{he:"המסע הסתיים. תודה לכולם! 🙏",en:"The journey is over. Thank you all! 🙏"},
+  chooseWeek:{he:"המסע שלנו",en:"Our journey"},
+  baggage:{he:"כבודה · איתיחאד",en:"Baggage · Etihad"}, todo:{he:"צ׳קליסט לפני הטיסה",en:"Before-flight checklist"},
+  packing:{he:"רשימת ציוד",en:"Packing list"}, flight:{he:"הטיסה",en:"The flight"},
+  saved:{he:"הסימונים נשמרים בטלפון שלך.",en:"Your ticks are saved on your phone."},
+  evening:{he:"בערב",en:"evening"}, steps:{he:"מה עושים ומתי",en:"What to do and when"}, prepare:{he:"מה להכין מראש:",en:"Have ready:"}, linkSoon:{he:"הקישור יתווסף כאן",en:"Link will be added here"},
+  candles:{he:"הדלקת נרות",en:"Candle lighting"}, havdala:{he:"צאת השבת",en:"Shabbat ends"},
+  booklet:{he:"חוברת המסע · פרדסי אקספרס",en:"Pardesi Express journey booklet"}, bookDesc:{he:"כל המסלול יום אחרי יום, מזג האוויר, החיים ברכבת, ציוד, תפילת הדרך ועוד.",en:"The whole route day by day, weather, life on the train, packing, the Traveler's Prayer and more."}, openBook:{he:"פתיחת החוברת",en:"Open the booklet"},
+  mal:{he:"מילים במלאיאלם",en:"Malayalam words"}, malSub:{he:"השפה של קרלה וקוצ׳י",en:"The language of Kerala and Kochi"},
+  install:{he:"להוסיף את האתר למסך הבית בטלפון / בנייד",en:"Add the site to your phone’s home screen"}, installSub:{he:"כך הוא נפתח כמו אפליקציה, בלחיצה אחת, גם בלי קליטה טובה.",en:"It then opens like an app with one tap, even with weak reception."},
+  installBtn:{he:"התקנה בטלפון",en:"Install on this phone"}, howto:{he:"איך עושים את זה?",en:"How?"},
+  ios:{he:"פותחים את האתר בספארי ← לוחצים על כפתור השיתוף (ריבוע עם חץ למעלה) ← \"הוספה למסך הבית\" ← \"הוסף\".",en:"Open the site in Safari → tap Share (square with an up arrow) → \"Add to Home Screen\" → \"Add\"."},
+  android:{he:"פותחים את האתר בכרום ← לוחצים על שלוש הנקודות למעלה ← \"התקנת אפליקציה\" או \"הוספה למסך הבית\".",en:"Open the site in Chrome → tap the three dots → \"Install app\" or \"Add to Home screen\"."},
+  aboutEy:{he:"אודות",en:"About"},
+  aboutH:{he:"חוזרים לשורשים בקוצ׳י",en:"Back to our roots in Kochi"},
+  aboutP:{he:"בחנוכה תשפ״ז נפתח בקוצ׳י המוזיאון היהודי הפרדסי, ליד בית הכנסת הפרדסי בן 458 השנים. לכבוד האירוע יוצאת קבוצה מישראל למסע של שבועיים: שבוע ברכבת פרטית לאורך הודו, ושבוע בקוצ׳י עם הקהילה, פתיחת המוזיאון ושתי שבתות חנוכה משותפות.",en:"This Hanukkah, the Paradesi Jewish Museum opens in Kochi, beside the 458-year-old Paradesi Synagogue. To mark it, a group from Israel sets out on a two-week journey: a week on a private train across India, and a week in Kochi with the community, the museum opening and two Shabbat Hanukkah celebrations."},
+  synH:{he:"בית הכנסת הפרדסי",en:"The Paradesi Synagogue"},
+  synP:{he:"נבנה ב־1568 ברובע העיר היהודית במטנצ׳רי, ונחשב לבית הכנסת הפעיל העתיק במדינות חבר העמים. ״פרדסי״ פירושו ״זרים״.",en:"Built in 1568 in Jew Town, Mattancherry, it is considered the oldest active synagogue in the Commonwealth. \"Paradesi\" means \"foreigners\"."},
+  musH:{he:"המוזיאון היהודי הפרדסי",en:"The Paradesi Jewish Museum"},
+  musP:{he:"נפתח ב־7–8 בדצמבר 2026: ערב קהילה ופתיחה פרטית, ולמחרת הפתיחה הרשמית בהשתתפות מכובדים.",en:"Opening on 7–8 December 2026: a community evening and private opening, then the official opening with dignitaries."},
+  jouH:{he:"מסע פרדסי אקספרס",en:"The Pardesi Express journey"},
+  jouP:{he:"8 ימים ברכבת מיוחדת של IRCTC, מדלהי ועד קוצ׳י: נמרים ברנתמבור, הטאג׳ מהאל, מבצרי רג׳סטאן, מומבאי, גואה והים הערבי.",en:"8 days on a special IRCTC train from Delhi to Kochi: tigers in Ranthambore, the Taj Mahal, Rajasthan's forts, Mumbai, Goa and the Arabian Sea."},
+  st1:{he:"שנת בניית בית הכנסת",en:"synagogue built"}, st2:{he:"תחנות במסע",en:"stations"}, st3:{he:"ק״מ ברכבת ובדרכים",en:"km on the road"},
+  st4:{he:"לילות ישנים ברכבת",en:"nights on the train"}, st5:{he:"פתיחת המוזיאון",en:"museum opening"}, st6:{he:"שבתות חנוכה ביחד",en:"Shabbat Hanukkahs together"},
+  thanksEy:{he:"תודות",en:"With gratitude"},
+  thanksP:{he:"המסע הזה לא היה יוצא לדרך בלי העזרה, התמיכה והחום של שותפינו. בזכותכם הוא גשר בין שני עמים, ובין העבר להווה.",en:"This journey could not have set out without the help, support and warmth of our partners. Thanks to you it is a bridge between two peoples, and between past and present."},
+  credit:{he:"האתר נבנה על ידי שולמית קוצר",en:"Website by Shulamit Kotzer"},
+  rights:{he:"כל הזכויות שמורות",en:"All rights reserved"},
+  route:{he:"המסלול שלנו",en:"Our route"}, routeSub:{he:"10 תחנות וכ־3,440 ק״מ, רובם ברכבת הפרטית שלנו",en:"10 stops and about 3,440 km, mostly on our private train"}, mizmor:{he:"מזמור לתודה",en:"A Psalm of Thanksgiving"}, prayerNote:{he:"אומרים פעם ביום, כשיוצאים לדרך מחוץ לעיר.",en:"Said once a day, when setting out on a journey outside the city."},
+  anthem:{he:"ההמנון הלאומי של הודו · ג׳נה גנה מנה",en:"India’s national anthem · Jana Gana Mana"}, anthemNote:{he:"מילים: רבינדרנת טאגור. השירה נמשכת כ־52 שניות. כשמנגנים את ההמנון עומדים בשקט, מתוך כבוד.",en:"Words by Rabindranath Tagore. Singing it takes about 52 seconds. When the anthem plays, we stand quietly out of respect."}, meaning:{he:"מה פירוש המילים?",en:"What do the words mean?"}, listenAnthem:{he:"להאזנה למנגינה",en:"Listen to the melody"},
+  newMsg:{he:"חדש",en:"New"}, until:{he:"בתוקף עד",en:"Valid until"},
+  homeMsgs:{he:"הודעות למטיילים",en:"Messages for travelers"}, noHomeMsgs:{he:"אין הודעות חדשות כרגע. עדכונים חשובים יופיעו כאן.",en:"No new messages right now. Important updates will appear here."},
+  msgsTitle:{he:"הודעות ליום הזה",en:"Messages for this day"}, noMsgs:{he:"אין הודעות כרגע. עדכונים כמו שעת יציאה בבוקר יופיעו כאן.",en:"No messages yet. Updates like the morning departure time will appear here."},
+  song:{he:"השיר של המסע",en:"The journey song"}, songDesc:{he:"השיר של בניה ברבי",en:"The song by Benaia Barabi"}, listen:{he:"להאזנה ביוטיוב",en:"Listen on YouTube"},
+  zemiron:{he:"זמירון שבת וחנוכה",en:"Shabbat & Hanukkah songbook"},
+  zemDesc:{he:"זמני השבתות, קידוש, שירי שבת, ברכת המזון, הבדלה, הדלקת נרות חנוכה, פרשות השבוע, התקווה והמנון הודו.",en:"Shabbat times, Kiddush, Shabbat songs, Grace after meals, Havdalah, Hanukkah candle lighting, weekly portions, Hatikvah and the Indian anthem."},
+  openZem:{he:"פתיחת הזמירון",en:"Open the songbook"},
+  india:{he:"נעים להכיר: הודו",en:"Meet India"}, words:{he:"מילים בהינדי",en:"Hindi words"},
+  train:{he:"החיים ברכבת",en:"Life on the train"}, prayer:{he:"תפילת הדרך",en:"The Traveler's Prayer"},
+  hatikva:{he:"התקווה",en:"Hatikvah"}, update:{he:"עדכון",en:"Update"},
+  museum:{he:"המוזיאון",en:"Museum"}, invite:{he:"ההזמנה לפתיחת המוזיאון",en:"Invitation to the museum opening"}, shabbat:{he:"שבת",en:"Shabbat"},
+  newcomers:{he:"ברוכים הבאים למצטרפים לשבוע השני! 👋",en:"Welcome to everyone joining for the second week! 👋"},
+};
+const t = o => o==null ? "" : (typeof o==="string" ? o : (o[lang] ?? o.he ?? ""));
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d }catch(e){ return d } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)) }catch(e){} }
+};
+
+// ---- dates (India time) ----
+const todayISO = () => new Intl.DateTimeFormat("en-CA",{timeZone:C.TIMEZONE,year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+const dParse = s => { const [y,m,d]=s.split("-").map(Number); return new Date(Date.UTC(y,m-1,d)); };
+const diffDays = (a,b) => Math.round((dParse(a)-dParse(b))/864e5);
+const fmtDate = iso => new Intl.DateTimeFormat(lang==="he"?"he-IL":"en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}).format(dParse(iso));
+const indiaHour = () => Number(new Intl.DateTimeFormat("en-GB",{timeZone:C.TIMEZONE,hour:"2-digit",hour12:false}).format(new Date()));
+const todayDay = () => T.days.find(d=>d.date===todayISO());
+const imgFor = d => d.img || (d.n<=8 ? `img/day${d.n}.jpg` : (d.highlight ? (d.n===11?"img/hero.jpg":"img/garden.jpg") : "img/day8.jpg"));
+
+// ---- live schedule from the Google Sheet ----
+async function loadLive(){
+  if(!C.SCRIPT_URL) return;
+  const apply = j => { live.schedule=j.schedule||null; live.notes=j.notes||{}; live.flight=j.flight||null; };
+  try{ const saved = JSON.parse(localStorage.getItem("pi_live")||"null"); if(saved){ apply(saved); render(false); } }catch(e){}
+  try{ const j = await (await fetch(C.SCRIPT_URL+"?action=schedule",{cache:"no-store"})).json();
+    apply(j); try{ localStorage.setItem("pi_live", JSON.stringify(j)); }catch(e){} render(false);
+  }catch(e){ console.warn("schedule unavailable (offline?) - showing last saved copy",e); }
+}
+const planFor = d => (live.schedule && live.schedule[d.n] && live.schedule[d.n].length) ? live.schedule[d.n] : (d.plan||[]);
+
+// ---- messages card (sheet tab "עדכונים") ----
+const notesFor = n => { const v = live.notes && live.notes[n]; return !v ? [] : (Array.isArray(v) ? v : [v]); };
+function msgsCard(n, title, emptyTxt){
+  const list = notesFor(n);
+  if(!list.length) return `<div class="card msgs"><h3>📣 ${t(title)}</h3><p class="muted" style="margin:0">${t(emptyTxt)}</p></div>`;
+  const key = "pi_seen_"+n, sig = JSON.stringify(list.map(x=>x.he));
+  let isNew = false; try{ isNew = localStorage.getItem(key)!==sig; if(isNew) setTimeout(()=>{ try{localStorage.setItem(key,sig);}catch(e){} },5000); }catch(e){}
+  return `<div class="card msgs hot" role="status"><h3><span class="bell">🔔</span>${t(title)}${isNew?` <span class="newpill">${t(UI.newMsg)}</span>`:""}</h3>
+  ${list.map(x=>`<div class="m">${esc(t(x))}${x.until?`<span class="until">${t(UI.until)} ${esc(x.until)}</span>`:""}</div>`).join("")}</div>`;
+}
+
+// ---- countdown ----
+let cdTimer;
+function countdown(){
+  const el = document.getElementById("cd"), now = Date.now();
+  const flight = new Date(C.FLIGHT_TIME).getTime(), museum = new Date(C.MUSEUM_TIME).getTime();
+  let target, label;
+  if(now < flight){ target=flight; label=UI.cdFlight; }
+  else if(now < museum){ target=museum; label=UI.cdMuseum; }
+  else { el.innerHTML = `<div class="lbl">${t(UI.ended)}</div>`; return; }
+  const draw = ()=>{
+    let s = Math.max(0, Math.floor((target-Date.now())/1000));
+    const d=Math.floor(s/86400); s%=86400; const h=Math.floor(s/3600); s%=3600; const m=Math.floor(s/60); s%=60;
+    const tl=(v,l,hl)=>`<div class="tile ${hl?"hl":""}"><b>${String(v).padStart(2,"0")}</b><small>${t(l)}</small></div>`;
+    const tiles=[tl(d,UI.d,1),tl(h,UI.h),tl(m,UI.m),tl(s,UI.s)];
+    el.innerHTML = `<div class="lbl">⏳ ${t(label)}</div><div class="tiles">${(lang==="he"?tiles.reverse():tiles).join("")}</div>`;
+  };
+  draw(); clearInterval(cdTimer); cdTimer=setInterval(draw,1000);
+}
+
+const TRAIN_SVG = (()=>{
+  const car=(x,c)=>`<g transform="translate(${x},0)"><rect x="0" y="8" width="86" height="30" rx="5" fill="${c}"/><rect x="0" y="8" width="86" height="6" rx="3" fill="#ffffff" opacity=".25"/>${[8,26,44,62].map(w=>`<rect x="${w}" y="17" width="13" height="10" rx="2" fill="#fff6e0"/>`).join("")}<rect x="4" y="33" width="78" height="2" fill="#f3b23a"/><circle cx="16" cy="41" r="5" fill="#0b2238"/><circle cx="70" cy="41" r="5" fill="#0b2238"/></g>`;
+  const loco=`<g><path d="M0 38 V16 Q0 8 10 8 H70 Q88 8 96 24 L100 38 Z" fill="#e8892b"/><rect x="10" y="14" width="22" height="12" rx="2" fill="#fff6e0"/><rect x="38" y="14" width="14" height="12" rx="2" fill="#fff6e0"/><path d="M74 14 H86 L94 26 H74 Z" fill="#fff6e0"/><rect x="0" y="30" width="100" height="4" fill="#184c78"/><circle cx="20" cy="41" r="5" fill="#0b2238"/><circle cx="50" cy="41" r="5" fill="#0b2238"/><circle cx="80" cy="41" r="5" fill="#0b2238"/></g>`;
+  const cols=["#184c78","#0f7c86","#184c78","#b8325f","#184c78","#0f7c86","#184c78"];
+  const w=104+cols.length*92;
+  return `<svg class="train" viewBox="0 0 ${w} 50" width="${w}" height="50" aria-hidden="true"><line x1="0" y1="47" x2="${w}" y2="47" stroke="#f3b23a" stroke-width="2" stroke-dasharray="10 6"/>${cols.map((c,i)=>car(i*92,c)).join("")}<g transform="translate(${cols.length*92},0)">${loco}</g></svg>`;
+})();
+let deferredPrompt=null;
+const isStandalone=()=>{ try{ return matchMedia("(display-mode: standalone)").matches || navigator.standalone===true; }catch(e){ return false; } };
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; if(!location.hash||location.hash==="#home") render(); });
+document.addEventListener("click",async e=>{ if(e.target.closest("#installBtn")&&deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice.catch(()=>{}); deferredPrompt=null; render(); } });
+if("serviceWorker" in navigator && location.protocol==="https:"){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
+// ---- views ----
+function tabs(active){
+  const items=[["home",UI.home],["before",UI.before],["week-1",UI.w1],["week-2",UI.w2],["info",UI.info]];
+  document.getElementById("tabs").innerHTML = items.map(([id,l])=>`<a href="#${id}" class="${active===id?"on":""}">${t(l)}</a>`).join("");
+}
+function dayCard(d){
+  const isT = d.date===todayISO(), sh = d.candles||d.havdala;
+  return `<a class="day ${isT?"is-today":""} ${d.highlight?"star":""}" href="#day-${d.n}">
+    <div class="ph"><img loading="lazy" src="${imgFor(d)}" alt=""><span class="badge">${t(UI.day)} ${d.n}</span></div>
+    <div class="tx"><b>${esc(t(d.title))}${isT?`<span class="chip">${t(UI.today)}</span>`:""}${d.highlight?`<span class="chip rose">${t(UI.museum)}</span>`:""}${sh?`<span class="chip peacock">${t(UI.shabbat)}</span>`:""}</b>
+    <div class="meta">${fmtDate(d.date)} · ${esc(t(d.place))}</div></div></a>`;
+}
+function viewHome(){
+  const cur = todayDay();
+  const todayBlock = cur ? `<a class="today" href="#day-${cur.n}"><img src="${imgFor(cur)}" alt="">
+      <div class="tx"><span class="live"><i></i>${t(UI.nowOn)} · ${t(UI.day)} ${cur.n}</span>
+      <h2 style="margin-top:8px">${esc(t(cur.title))}</h2><div class="muted">${fmtDate(cur.date)} · ${esc(t(cur.place))}</div></div></a>` : "";
+  const note = msgsCard(0, UI.homeMsgs, UI.noHomeMsgs);
+  const about = `
+  <section class="about card">
+    <div class="eyebrow">${t(UI.aboutEy)}</div>
+    <h2>${t(UI.aboutH)}</h2>
+    <p class="lead">${t(UI.aboutP)}</p>
+    <div class="aboutgrid">
+      <div class="ab"><img src="img/hero.jpg" alt=""><div><b>🕍 ${t(UI.synH)}</b><p>${t(UI.synP)}</p></div></div>
+      <div class="ab"><img src="img/invitation.jpg" alt=""><div><b>🏛️ ${t(UI.musH)}</b><p>${t(UI.musP)}</p></div></div>
+      <div class="ab"><img src="img/day8.jpg" alt=""><div><b>🚆 ${t(UI.jouH)}</b><p>${t(UI.jouP)}</p></div></div>
+    </div>
+  </section>
+  <div class="stats">${[["1568",UI.st1],["10",UI.st2],["3,440",UI.st3],["4/7",UI.st4],["7–8.12",UI.st5],["2",UI.st6]].map(([n,l])=>`<div><b dir="ltr">${n}</b><small>${t(l)}</small></div>`).join("")}</div>`;
+  const thanks = `<div class="section-head"><div class="eyebrow">${t(UI.thanksEy)}</div></div>
+  <div class="card thanks"><p class="lead" style="margin-top:0">${t(UI.thanksP)}</p>
+  <div class="tgrid">${T.thanks.map(x=>`<div><b>${esc(t(x.org))}</b><span>${esc(t(x.who))}</span></div>`).join("")}</div></div>`;
+  return todayBlock + `
+  ${`<div class="card install" id="installCard" ${isStandalone()?"hidden":""}><div class="zem"><div class="cv" style="background:linear-gradient(160deg,var(--saffron),#c96a17);color:#fff">📲</div><div style="min-width:0"><h2 style="font-size:1.25rem">${t(UI.install)}</h2>
+ <p class="muted" style="margin:4px 0 8px;font-size:.9rem">${t(UI.installSub)}</p>
+ ${deferredPrompt?`<button class="btn saffron" type="button" id="installBtn">⬇️ ${t(UI.installBtn)}</button>`:""}
+ <details><summary>${t(UI.howto)}</summary><p style="margin:6px 0"><b>🍎 iPhone:</b> ${t(UI.ios)}</p><p style="margin:6px 0"><b>🤖 Android:</b> ${t(UI.android)}</p></details></div></div></div>`}` + note + about + `
+  <div class="section-head"><div class="eyebrow">${t(UI.chooseWeek)}</div></div>
+  <div class="weeks">${T.weeks.map(w=>`<a class="week" href="#week-${w.id}"><img src="${w.id===1?"img/day4.jpg":"img/garden.jpg"}" alt=""><div class="tx" style="width:100%"><b>${esc(t(w))}</b><small>${esc(t(w.sub))}</small>${w.id===1?`<div class="trainwrap">${TRAIN_SVG}</div>`:""}</div></a>`).join("")}</div>
+
+  ${thanks}`;
+}
+function checklist(key,items){
+  const st = store.get("pe-"+key,{}), done = items.filter(i=>st[i.id]).length;
+  return `<div class="progress"><i style="width:${Math.round(done/items.length*100)}%"></i></div>
+  <div class="muted" style="font-size:.85rem">${done} / ${items.length}</div>
+  <ul class="check">${items.map(i=>`<li><label><input type="checkbox" id="c-${i.id}" data-list="${key}" data-id="${i.id}" ${st[i.id]?"checked":""}><span>${esc(t(i))}</span></label></li>`).join("")}</ul>`;
+}
+function viewBefore(){
+  const f = live.flight||{};
+  return `<div class="card"><h2>✈️ ${t(UI.flight)}</h2>
+    <div class="facts" style="margin-top:10px"><div>📅 <span>${fmtDate(T.flight.date)} · ${t(UI.evening)}</span></div>
+    <div>🛫 <span>${esc(t(f.flightNo||T.flight.flightNo))} · ${t(T.flight.airline)}</span></div>
+    <div>📍 <span>${esc(t(f.meet||T.flight.meet))}</span></div></div></div>
+  <div class="card"><h2>🗓️ ${t(UI.steps)}</h2><div class="stepl">${T.steps.map(st=>{const dd=diffDays(st.date,todayISO());
+  const links=(st.links||(st.link?[{url:st.link,he:st.linkLabel.he,en:st.linkLabel.en}]:[])).map(l=>`<a class="btn saffron" style="padding:8px 14px;font-size:.9rem" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(t(l))} ↗</a>`).join("");
+  return `<div class="step ${dd===0?"now":""} ${dd<0?"past":""} ${st.important?"imp":""}"><span class="ic">${st.icon}</span><div style="min-width:0"><div class="sd">${fmtDate(st.date)}${dd===0?` <span class="chip">${t(UI.today)}</span>`:""}</div><div>${esc(t(st))}</div>
+  ${st.prep?`<div style="margin-top:8px;font-weight:600;font-size:.9rem">${t(UI.prepare)}</div><ul class="clean" style="font-size:.9rem">${st.prep[lang].map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+  ${st.tip?`<div class="muted" style="font-size:.88rem;margin-top:6px">💡 ${esc(t(st.tip))}</div>`:""}
+  ${links?`<div class="row" style="margin-top:10px">${links}</div>`:""}</div></div>`}).join("")}</div></div>
+  <div class="card"><h2>🧳 ${t(UI.baggage)}</h2><div class="bag" style="margin-top:10px">${T.baggage.map(b=>`<div><span class="ic">${b.icon}</span><span>${esc(t(b))}</span></div>`).join("")}</div></div>
+  <div class="card"><h2>✅ ${t(UI.todo)}</h2>${checklist("todo",T.beforeFlight)}<p class="muted" style="font-size:.8rem;margin-bottom:0">${t(UI.saved)}</p></div>
+  <div class="card"><h2>🎒 ${t(UI.packing)}</h2>${checklist("pack",T.packing)}</div>`;
+}
+function viewWeek(n){
+  const w = T.weeks.find(x=>x.id===n);
+  return `<div class="banner"><img src="${n===1?"img/day4.jpg":"img/garden.jpg"}" alt=""><div class="tx" style="width:100%"><h2>${esc(t(w))}</h2><div>${esc(t(w.sub))}</div>${n===1?`<div class="trainwrap">${TRAIN_SVG}</div>`:""}</div></div>
+  ${n===2?`<div class="card" style="border-color:var(--rose)">${t(UI.newcomers)}</div>`:`<div class="card"><h2>🗺️ ${t(UI.route)}</h2><p class="muted" style="margin:2px 0 10px">${t(UI.routeSub)}</p>
+  <img src="img/map-${lang}.jpg" alt="${t(UI.route)}" style="width:100%;border-radius:12px;display:block">
+  <ol class="stations">${STATIONS.map((x,i)=>`<li><a href="#day-${x[0]}"><span class="sn">${i+1}</span><span>${esc(t(x[1]))}</span><small>${t(UI.day)} ${x[0]}</small></a></li>`).join("")}</ol></div>`+`<div class="card"><div class="zem"><div class="cv">🚆</div><div style="min-width:0"><h2 style="font-size:1.3rem">${t(UI.booklet)}</h2><p class="muted" style="margin:4px 0 10px;font-size:.9rem">${t(UI.bookDesc)}</p><a class="btn saffron" href="booklet.pdf" target="_blank" rel="noopener">📖 ${t(UI.openBook)}</a></div></div></div>`+`<div class="card"><details open><summary style="font-size:1.1rem">🚆 ${t(UI.train)}</summary><ul class="clean" style="margin-top:8px">${T.info.train.map(i=>`<li>${esc(t(i))}</li>`).join("")}</ul></details></div>`+`<div class="card"><h2>📜 ${t(UI.prayer)}</h2><p class="song" style="white-space:normal">${lang==="he"?PRAYER_HE:PRAYER_EN}</p><p class="muted" style="font-size:.85rem">${t(UI.prayerNote)}</p>
+  <details><summary>🙏 ${t(UI.mizmor)}</summary><p class="song" style="white-space:normal">${lang==="he"?MIZMOR_HE:MIZMOR_EN}</p></details></div>`}
+  <div class="days">${T.days.filter(d=>d.week===n).map(dayCard).join("")}</div>`;
+}
+function viewDay(n){
+  const d = T.days.find(x=>x.n===n); if(!d) return viewHome();
+  const td = todayISO(), isT = d.date===td, plan = planFor(d), note = live.notes && live.notes[d.n];
+  const prev = T.days.find(x=>x.n===n-1), next = T.days.find(x=>x.n===n+1);
+  const passed = diffDays(td,d.date)>=1 || (diffDays(td,d.date)===0 && indiaHour()>=(C.GALLERY_OPEN_HOUR||20));
+  const arrowPrev = lang==="he"?"→":"←", arrowNext = lang==="he"?"←":"→";
+  return `<div class="banner"><img src="${imgFor(d)}" alt="" style="${d.highlight?"object-position:center 25%":""}">
+    <div class="tx">${isT?`<span class="live"><i></i>${t(UI.today)}</span> `:""}<div style="opacity:.9">${t(UI.day)} ${d.n} · ${fmtDate(d.date)}</div><h2>${esc(t(d.title))}</h2></div></div>
+  ${msgsCard(d.n, UI.msgsTitle, UI.noMsgs)}
+  ${(d.place||d.route||d.sleep||d.weather)?`<div class="card"><div class="facts">
+    ${d.place?`<div>📍 <span>${esc(t(d.place))}</span></div>`:""}${d.route?`<div>🚆 <span>${esc(t(d.route))}</span></div>`:""}
+    ${d.sleep?`<div>🛏️ <span>${esc(t(d.sleep))}</span></div>`:""}${d.weather?`<div>🌡️ <span>${esc(t(d.weather))}</span></div>`:""}</div>
+    ${(d.candles||d.havdala)?`<div class="shab" style="margin-top:12px">${d.parasha?`<span>📖 ${esc(t(d.parasha))}</span>`:""}${d.candles?`<span>🕯️ ${t(UI.candles)} <b dir="ltr">${d.candles}</b></span>`:""}${d.havdala?`<span>✨ ${t(UI.havdala)} <b dir="ltr">${d.havdala}</b></span>`:""}</div>`:""}
+  </div>`:""}
+  <div class="card"><h3>🧭 ${t(UI.plan)}</h3>
+    ${plan.length?`<ol class="plan">${plan.map(p=>`<li>${p.time?`<span class="t">${esc(p.time)}</span>`:`<span class="dot"></span>`}<span>${esc(t(p))}</span></li>`).join("")}</ol>`:`<p class="muted">${t(UI.tbd)}</p>`}</div>
+  <div class="card upload"><h3>📸 ${t(UI.upTitle)}</h3>
+    <div class="upl" data-day="${d.n}">
+      <div class="in"><input type="text" class="u-name" id="u-name-${d.n}" placeholder="${t(UI.yourName)}"><input type="text" class="u-place" id="u-place-${d.n}" placeholder="${t(UI.placeEvent)}"></div>
+      <label class="btn block">⬆️ ${t(UI.upBtn)}<input type="file" accept="image/*,video/*" multiple hidden class="u-file" id="u-file-${d.n}"></label>
+      <div class="upl-status" aria-live="polite"></div><p class="note" style="margin-top:6px">${t(UI.dropHint)}</p>
+      ${C.SCRIPT_URL?"":`<p class="note">${t(UI.upSoon)}</p>`}
+    </div></div>
+  <div class="card"><h3>🖼️ ${t(UI.galTitle)}</h3>
+    ${passed ? `<div class="gallery" data-gal="${d.n}"><span class="muted">${C.SCRIPT_URL?"…":t(UI.noPhotos)}</span></div>
+      <div class="row" style="margin-top:10px"><button class="btn ghost dl" data-day="${d.n}" type="button">⬇️ ${t(UI.download)}</button></div>`
+      : `<div class="locked"><span style="font-size:1.6rem">🔒</span><span>${isT?t(UI.locked):t(UI.future)}</span></div>`}</div>
+  ${d.highlight?`<div class="card" style="padding:0;overflow:hidden"><img src="img/invitation.jpg" alt="${t(UI.invite)}" style="width:100%;display:block"></div>`:""}
+  ${d.see?`<div class="card see"><h3>🗺️ ${t(UI.see)}</h3>${d.see.map(s=>`<p><b>${esc(t(s.t))}</b> · ${esc(t(s.d))}</p>`).join("")}</div>`:""}
+  ${d.wear?`<div class="card"><h3>👕 ${t(UI.wear)}</h3><ul class="clean">${d.wear.map(w=>`<li>${esc(t(w))}</li>`).join("")}</ul></div>`:""}
+  <div class="pager">${prev?`<a class="btn ghost" href="#day-${prev.n}">${arrowPrev} ${t(UI.day)} ${prev.n}</a>`:"<span></span>"}${next?`<a class="btn ghost" href="#day-${next.n}">${t(UI.day)} ${next.n} ${arrowNext}</a>`:""}</div>`;
+}
+const PRAYER_HE = "יְהִי רָצוֹן מִלְּפָנֶיךָ ה׳ אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ, שֶׁתּוֹלִיכֵנוּ לְשָׁלוֹם וְתַצְעִידֵנוּ לְשָׁלוֹם וְתַדְרִיכֵנוּ לְשָׁלוֹם, וְתִסְמְכֵנוּ לְשָׁלוֹם, וְתַגִּיעֵנוּ לִמְחוֹז חֶפְצֵנוּ לְחַיִּים וּלְשִׂמְחָה וּלְשָׁלוֹם, וְתַחֲזִירֵנוּ לְבֵיתֵנוּ לְשָׁלוֹם. וְתַצִּילֵנוּ מִכַּף כָּל אוֹיֵב וְאוֹרֵב וְלִסְטִים וְחַיּוֹת רָעוֹת בַּדֶּרֶךְ, וּמִכָּל מִינֵי פֻּרְעָנֻיּוֹת הַמִּתְרַגְּשׁוֹת לָבוֹא לָעוֹלָם. וְתִשְׁלַח בְּרָכָה בְּכָל מַעֲשֵׂה יָדֵינוּ, וְתִתְּנֵנוּ לְחֵן וּלְחֶסֶד וּלְרַחֲמִים בְּעֵינֶיךָ וּבְעֵינֵי כָל רוֹאֵינוּ, וְתִשְׁמַע קוֹל תַּחֲנוּנֵינוּ, כִּי אֵל שׁוֹמֵעַ תְּפִלָּה וְתַחֲנוּן אָתָּה. בָּרוּךְ אַתָּה ה׳, שׁוֹמֵעַ תְּפִלָּה.";
+const PRAYER_EN = "May it be Your will, Lord our God and God of our ancestors, that You lead us in peace, guide our steps in peace and direct us in peace; that You support us in peace and bring us to our destination in life, joy and peace, and return us home in peace. Save us from every enemy and ambush, from robbers and wild animals on the way, and from all troubles that come into the world. Send blessing to all the work of our hands, and grant us grace, kindness and compassion in Your eyes and in the eyes of all who see us. Hear the voice of our pleas, for You are a God who hears prayer and supplication. Blessed are You, Lord, who hears prayer.";
+const HATIKVA_HE = "כֹּל עוֹד בַּלֵּבָב פְּנִימָה\nנֶפֶשׁ יְהוּדִי הוֹמִיָּה,\nוּלְפַאֲתֵי מִזְרָח קָדִימָה\nעַיִן לְצִיּוֹן צוֹפִיָּה,\nעוֹד לֹא אָבְדָה תִּקְוָתֵנוּ,\nהַתִּקְוָה בַּת שְׁנוֹת אַלְפַּיִם:\nלִהְיוֹת עַם חָפְשִׁי בְּאַרְצֵנוּ,\nאֶרֶץ צִיּוֹן וִירוּשָׁלַיִם.";
+const HATIKVA_EN = "Kol od balevav penimah\nNefesh Yehudi homiyah,\nUlfa'atei mizrach kadimah\nAyin leTziyon tzofiyah,\nOd lo avdah tikvatenu,\nHatikvah bat shnot alpayim:\nLihyot am chofshi be'artzenu,\nEretz Tziyon virushalayim.";
+const MIZMOR_HE = "מִזְמוֹר לְתוֹדָה, הָרִיעוּ לַה׳ כָּל הָאָרֶץ. עִבְדוּ אֶת ה׳ בְּשִׂמְחָה, בֹּאוּ לְפָנָיו בִּרְנָנָה. דְּעוּ כִּי ה׳ הוּא אֱלֹהִים, הוּא עָשָׂנוּ וְלוֹ אֲנַחְנוּ, עַמּוֹ וְצֹאן מַרְעִיתוֹ. בֹּאוּ שְׁעָרָיו בְּתוֹדָה, חֲצֵרֹתָיו בִּתְהִלָּה, הוֹדוּ לוֹ בָּרְכוּ שְׁמוֹ. כִּי טוֹב ה׳, לְעוֹלָם חַסְדּוֹ, וְעַד דֹּר וָדֹר אֱמוּנָתוֹ.";
+const MIZMOR_EN = "A Psalm of thanksgiving. Shout unto the LORD, all the earth. Serve the LORD with gladness; come before His presence with singing. Know ye that the LORD He is God; it is He that hath made us, and we are His, His people, and the flock of His pasture. Enter into His gates with thanksgiving, and into His courts with praise; give thanks unto Him, and bless His name. For the LORD is good; His mercy endureth for ever; and His faithfulness unto all generations.";
+const STATIONS = [[1,{he:"דלהי · נחיתה",en:"Delhi · landing"}],[2,{he:"רנתמבור · שבת וספארי",en:"Ranthambore · Shabbat & safari"}],[3,{he:"אגרה · טאג׳ מהאל",en:"Agra · Taj Mahal"}],[4,{he:"ג׳איפור · העיר הוורודה",en:"Jaipur · the Pink City"}],[4,{he:"צ׳יטורגרה · המבצר הגדול",en:"Chittorgarh · the great fort"}],[5,{he:"ואדודרה · ארמון המלכים",en:"Vadodara · royal palace"}],[5,{he:"מומבאי · שער הודו ובוליווד",en:"Mumbai · Gateway & Bollywood"}],[7,{he:"גואה · כנסיות, חוף ותבלינים",en:"Goa · churches, beach & spices"}],[7,{he:"מורודשואר · פסל שיווה",en:"Murudeshwar · Shiva statue"}],[8,{he:"קוצ׳י · סוף המסע",en:"Kochi · journey's end"}]];
+const ANTHEM_TR_HE = "ג׳נה גנה מנה אדהינאיקה ג׳איה הה\nבהארטה בהאגיה וידהאטה\nפנג׳אבה סינדהו גוג׳ראטה מראטהה\nדראווידה אוטקלה בנגה\nוינדהיה הימאצ׳לה יאמונה גנגה\nאוצ׳לה ג׳לדהי טרנגה\nטווה שובהה נאמה ג׳אגה\nטווה שובהה אאשישה מאגה\nגאהה טווה ג׳איה גאתהא\nג׳נה גנה מנגלה דאיקה ג׳איה הה\nבהארטה בהאגיה וידהאטה\nג׳איה הה, ג׳איה הה, ג׳איה הה\nג׳איה ג׳איה ג׳איה, ג׳איה הה!";
+const ANTHEM_TR_EN = "Jana-gana-mana-adhinayaka jaya he\nBharata-bhagya-vidhata\nPunjaba-Sindhu-Gujarata-Maratha\nDravida-Utkala-Banga\nVindhya-Himachala-Yamuna-Ganga\nUchchala-jaladhi-taranga\nTava shubha name jage\nTava shubha asisa mage\nGahe tava jaya-gatha\nJana-gana-mangala-dayaka jaya he\nBharata-bhagya-vidhata\nJaya he, jaya he, jaya he\nJaya jaya jaya, jaya he!";
+const ANTHEM_MEAN_HE = "אתה השולט בלבבות כל העם, המכוון את גורלה של הודו. שמך מעורר את לבבות פנג׳אב, סינד, גוג׳ראט ומהרשטרה, את ארץ הדרווידים, אוריסה ובנגל; הוא מהדהד בהרי הווינדיה וההימלאיה, מתערבב במנגינת נהרות היאמונה והגנגס, ומושר בגלי האוקיינוס ההודי. הם מתפללים לברכתך ושרים את תהילתך. ישועת כל העם בידך, אתה המכוון את גורלה של הודו. ניצחון, ניצחון, ניצחון לך!";
+const ANTHEM_MEAN_EN = "Thou art the ruler of the minds of all people, Dispenser of India’s destiny. Thy name rouses the hearts of Punjab, Sind, Gujarat and Maratha, of the Dravida, Orissa and Bengal; it echoes in the hills of the Vindhyas and Himalayas, mingles in the music of the Jamuna and Ganges, and is chanted by the waves of the Indian Sea. They pray for thy blessings and sing thy praise. The saving of all people waits in thy hand, Thou dispenser of India’s destiny. Victory, victory, victory to thee!";
+function viewInfo(){
+  return `<div class="card"><div class="zem"><div class="cv">🎵</div><div style="min-width:0"><h2 style="font-size:1.3rem">${t(UI.song)}</h2><p class="muted" style="margin:4px 0 10px;font-size:.9rem">${t(UI.songDesc)}</p><a class="btn saffron" href="https://youtu.be/XLHO_ENhPqY" target="_blank" rel="noopener">▶️ ${t(UI.listen)}</a></div></div></div>` + `<div class="card"><div class="zem"><div class="cv">🚆</div><div style="min-width:0"><h2 style="font-size:1.3rem">${t(UI.booklet)}</h2><p class="muted" style="margin:4px 0 10px;font-size:.9rem">${t(UI.bookDesc)}</p><a class="btn saffron" href="booklet.pdf" target="_blank" rel="noopener">📖 ${t(UI.openBook)}</a></div></div></div>` + `<div class="card"><div class="zem"><div class="cv">🕎</div><div style="min-width:0"><h2 style="font-size:1.3rem">${t(UI.zemiron)}</h2><p class="muted" style="margin:4px 0 10px;font-size:.9rem">${t(UI.zemDesc)}</p>
+    <a class="btn saffron" href="zemiron.pdf" target="_blank" rel="noopener">📖 ${t(UI.openZem)}</a></div></div></div>
+  <div class="card"><h2>🕯️ ${t(UI.shabbat)}</h2><div style="display:grid;gap:8px;margin-top:10px">${T.days.filter(d=>d.candles).map(d=>{const nx=T.days.find(x=>x.n===d.n+1)||{};return `<div class="shab"><span><b>${esc(t(d.parasha))}</b></span><span>${esc(t(d.place))}</span><span>🕯️ <b dir="ltr">${d.candles}</b></span><span>✨ <b dir="ltr">${nx.havdala||""}</b></span></div>`}).join("")}</div></div>
+  <div class="card"><h2>🇮🇳 ${t(UI.india)}</h2><ul class="clean" style="margin-top:8px">${T.info.india.map(i=>`<li>${esc(t(i))}</li>`).join("")}</ul></div>
+  <div class="card"><h2>🙏 ${t(UI.words)}</h2><table class="words">${T.info.words.map(w=>`<tr><td dir="ltr"><b>${w[0]}</b></td><td>${lang==="he"?w[1]+" · "+w[2]:w[3]}</td></tr>`).join("")}</table></div>
+  ${`<div class="card"><h2>🌴 ${t(UI.mal)}</h2><p class="muted" style="margin:0 0 6px;font-size:.88rem">${t(UI.malSub)}</p><table class="words">${T.info.malayalam.map(w=>`<tr><td dir="ltr"><b>${w[0]}</b></td><td>${lang==="he"?w[1]+" · "+w[2]:w[3]}</td></tr>`).join("")}</table></div>`}
+  <div class="card"><details open><summary style="font-size:1.1rem">🇮🇱 ${t(UI.hatikva)}</summary><p class="song">${lang==="he"?HATIKVA_HE:HATIKVA_EN}</p><div class="row"><a class="btn ghost" href="https://www.youtube.com/watch?v=1DPqNHkm1bM" target="_blank" rel="noopener">▶️ ${t(UI.listenAnthem)}</a></div></details></div>
+  <div class="card"><details open><summary style="font-size:1.1rem">🇮🇳 ${t(UI.anthem)}</summary>
+    <p class="muted" style="font-size:.88rem;margin:8px 0">${t(UI.anthemNote)}</p>
+    <p class="song">${lang==="he"?ANTHEM_TR_HE:ANTHEM_TR_EN}</p>
+    <details><summary>💬 ${t(UI.meaning)}</summary><p class="song" style="white-space:normal">${lang==="he"?ANTHEM_MEAN_HE:ANTHEM_MEAN_EN}</p></details>
+    <div class="row" style="margin-top:10px"><a class="btn saffron" href="https://www.youtube.com/watch?v=NiEKpv-ouNk" target="_blank" rel="noopener">▶️ ${t(UI.listenAnthem)}</a></div></details></div>`;
+}
+
+// ---- photos ----
+function resizeImage(file,max=3000,q=0.9){
+  return new Promise(res=>{
+    if(!file.type.startsWith("image/")||file.type==="image/gif") return res(file);
+    const img=new Image(), url=URL.createObjectURL(file);
+    img.onload=()=>{ const s=Math.min(1,max/Math.max(img.width,img.height));
+      if(s===1&&file.size<6e6){URL.revokeObjectURL(url);return res(file);}
+      const c=document.createElement("canvas"); c.width=Math.round(img.width*s); c.height=Math.round(img.height*s);
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      c.toBlob(b=>{URL.revokeObjectURL(url);res(b?new File([b],file.name.replace(/\.\w+$/,"")+".jpg",{type:"image/jpeg"}):file);},"image/jpeg",q); };
+    img.onerror=()=>{URL.revokeObjectURL(url);res(file);}; img.src=url; });
+}
+const toB64 = b => new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(String(r.result).split(",")[1]); r.onerror=rej; r.readAsDataURL(b); });
+async function handleUpload(box,files){
+  const st=box.querySelector(".upl-status");
+  if(!C.SCRIPT_URL){ st.textContent=t(UI.upSoon); return; }
+  const day=Number(box.dataset.day), name=box.querySelector(".u-name").value.trim(), place=box.querySelector(".u-place").value.trim();
+  store.set("pe-name",name); let ok=0;
+  for(let i=0;i<files.length;i++){
+    st.textContent=`${t(UI.sending)} ${i+1} / ${files.length}…`;
+    try{ const f=await resizeImage(files[i]); if(f.size>45e6) throw 0;
+      const r=await fetch(C.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify({action:"upload",day,name:f.name,mime:f.type||"application/octet-stream",uploader:name,place,data:await toB64(f)})});
+      if((await r.json()).ok) ok++; }catch(e){ console.warn(e); }
+  }
+  st.textContent = ok===files.length ? t(UI.done) : `${t(UI.failed)} (${ok}/${files.length})`;
+}
+async function loadGallery(){
+  const el=document.querySelector("[data-gal]"); if(!el||!C.SCRIPT_URL) return;
+  try{ const j=await (await fetch(C.SCRIPT_URL+"?action=gallery",{cache:"no-store"})).json(), list=(j.days&&j.days[el.dataset.gal])||[];
+    el.innerHTML = list.length ? list.map(p=>`<a href="${esc(p.view)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(p.thumb)}" alt=""><input type="checkbox" data-dl="${esc(p.download)}" aria-label="select"></a>`).join("") : `<span class="muted">${t(UI.noPhotos)}</span>`;
+  }catch(e){ el.innerHTML=`<span class="muted">${t(UI.noPhotos)}</span>`; }
+}
+
+// ---- router ----
+function render(scroll){
+  document.documentElement.lang=lang; document.documentElement.dir=lang==="he"?"rtl":"ltr";
+  document.getElementById("org").textContent=t(UI.org);
+  document.getElementById("h1").innerHTML=t(UI.h1);
+  document.getElementById("sub").textContent=t(UI.sub);
+  document.getElementById("sub2").innerHTML=`<bdi dir="ltr">26.11 – 13.12.2026</bdi>${lang==="he"?" · כסלו–טבת תשפ״ז":""}`;
+  document.getElementById("langBtn").textContent=lang==="he"?"English":"עברית";
+  document.getElementById("foot").innerHTML=`<div>${lang==="he"?"פתיחת מוזיאון הפרדסי":"Paradesi Inauguration"} · 🇮🇱🤝🇮🇳</div><div style="margin-top:6px">${t(UI.credit)}</div><div>© <span dir="ltr">2026</span> ${t(UI.rights)}</div>`;
+  countdown();
+  const h=(location.hash||"#home").slice(1); let html, tab=h;
+  if(h==="before") html=viewBefore();
+  else if(/^week-\d$/.test(h)) html=viewWeek(Number(h.slice(5)));
+  else if(/^day-\d+$/.test(h)){ const n=Number(h.slice(4)); html=viewDay(n); tab="week-"+((T.days.find(d=>d.n===n)||{}).week||1); }
+  else if(h==="info") html=viewInfo();
+  else { html=viewHome(); tab="home"; }
+  tabs(tab); document.getElementById("app").innerHTML=html;
+  const nm=store.get("pe-name",""); document.querySelectorAll(".u-name").forEach(i=>i.value=nm);
+  loadGallery();
+}
+document.addEventListener("change",e=>{
+  const el=e.target;
+  if(el.matches("input[data-list]")){ const k="pe-"+el.dataset.list, st=store.get(k,{}); st[el.dataset.id]=el.checked; store.set(k,st);
+    const card=el.closest(".card"), items=card.querySelectorAll("input[data-list]"), done=[...items].filter(i=>i.checked).length;
+    card.querySelector(".progress i").style.width=Math.round(done/items.length*100)+"%"; card.querySelector(".progress+div").textContent=`${done} / ${items.length}`; }
+  if(el.matches(".u-file")&&el.files.length){ handleUpload(el.closest(".upl"),[...el.files]); el.value=""; }
+});
+document.addEventListener("click",e=>{
+  if(e.target.matches(".gallery input")){ e.stopPropagation(); return; }
+  const b=e.target.closest(".dl"); if(!b) return;
+  document.querySelectorAll(`[data-gal="${b.dataset.day}"] input[data-dl]:checked`).forEach((c,i)=>setTimeout(()=>{const a=document.createElement("a");a.href=c.dataset.dl;a.target="_blank";a.rel="noopener";a.click();},i*500));
+});
+document.addEventListener("dragover",e=>{ const u=e.target.closest&&e.target.closest(".upload"); if(u){ e.preventDefault(); u.style.outline="3px dashed var(--marigold)"; } });
+document.addEventListener("dragleave",e=>{ const u=e.target.closest&&e.target.closest(".upload"); if(u) u.style.outline=""; });
+document.addEventListener("drop",e=>{ const u=e.target.closest&&e.target.closest(".upload"); if(!u) return; e.preventDefault(); u.style.outline=""; const f=[...(e.dataTransfer.files||[])].filter(x=>/^(image|video)\//.test(x.type)); if(f.length) handleUpload(u.querySelector(".upl"),f); });
+document.getElementById("langBtn").onclick=()=>{ lang=lang==="he"?"en":"he"; try{localStorage.setItem("pe-lang",lang)}catch(e){} render(); };
+window.addEventListener("hashchange",()=>{ render(); const n=document.querySelector("nav.tabs"); window.scrollTo({top:location.hash.startsWith("#day-")||location.hash.startsWith("#week-")?n.offsetTop:0}); });
+render(); loadLive(); setInterval(()=>{ if(!document.hidden) loadLive(); },5*60*1000);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) loadLive(); });
+})();
+</script>
+</body>
+</html>
