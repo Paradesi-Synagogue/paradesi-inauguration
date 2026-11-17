@@ -222,6 +222,22 @@ details summary{cursor:pointer;font-weight:600;color:var(--navy)}
 footer{text-align:center;color:var(--muted);font-size:.82rem;padding:10px 16px 40px}
 footer .logo{background:var(--navy);margin:0 auto 8px;width:26px;height:44px}
 </style>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal){
+  await OneSignal.init({
+    appId: "7b1acd3d-410a-448d-a1e2-82fb71228ec0",
+    serviceWorkerPath: "paradesi-inauguration/OneSignalSDKWorker.js",
+    serviceWorkerUpdaterPath: "paradesi-inauguration/OneSignalSDKUpdaterWorker.js",
+    serviceWorkerParam: { scope: "/paradesi-inauguration/" },
+    notifyButton: { enable: false }
+  });
+  window.__os = OneSignal;
+  OneSignal.Notifications.addEventListener("permissionChange", ()=>window.__renderPush && window.__renderPush());
+  window.__renderPush && window.__renderPush();
+});
+</script>
 </head>
 <body>
 <header class="hero">
@@ -306,6 +322,13 @@ const UI = {
   anthem:{he:"ההמנון הלאומי של הודו · ג׳נה גנה מנה",en:"India’s national anthem · Jana Gana Mana"}, anthemNote:{he:"מילים: רבינדרנת טאגור. השירה נמשכת כ־52 שניות. כשמנגנים את ההמנון עומדים בשקט, מתוך כבוד.",en:"Words by Rabindranath Tagore. Singing it takes about 52 seconds. When the anthem plays, we stand quietly out of respect."}, meaning:{he:"מה פירוש המילים?",en:"What do the words mean?"}, listenAnthem:{he:"להאזנה למנגינה",en:"Listen to the melody"},
   newMsg:{he:"חדש",en:"New"}, newMsgs:{he:"חדשות",en:"new"}, olderMsgs:{he:"הודעות קודמות",en:"Earlier messages"}, until:{he:"בתוקף עד",en:"Valid until"},
   share:{he:"שיתוף הקישור",en:"Share the link"},
+  pushH:{he:"התראות לטלפון",en:"Phone notifications"},
+  pushP:{he:"קבלו התראה על הודעה חשובה, גם כשהאתר סגור. צריך רק חיבור לאינטרנט, וגלישה סלולרית מספיקה.",en:"Get an alert for important messages, even when the site is closed. Mobile data is enough."},
+  pushBtn:{he:"🔔 אישור קבלת התראות",en:"🔔 Allow notifications"},
+  pushOn:{he:"✅ ההתראות פעילות בטלפון הזה.",en:"✅ Notifications are on for this device."},
+  pushBlocked:{he:"ההתראות חסומות בדפדפן. כדי לאפשר: הגדרות הדפדפן ← הגדרות אתר ← התראות ← לאפשר לאתר הזה.",en:"Notifications are blocked. Allow them in your browser's site settings."},
+  pushIos:{he:"באייפון: קודם מוסיפים את האתר למסך הבית (בכרטיס למעלה), פותחים אותו משם, ואז לוחצים כאן.",en:"On iPhone: first add the site to your home screen (card above), open it from there, then tap here."},
+  pushNo:{he:"הדפדפן הזה לא תומך בהתראות. נסו בכרום או בספארי מעודכן.",en:"This browser does not support notifications. Try an up-to-date Chrome or Safari."},
   qrH:{he:"קוד QR לאתר",en:"QR code for the site"}, qrP:{he:"במחשב: סורקים עם הטלפון והאתר נפתח בו. בטלפון: מראים לחבר, והוא סורק.",en:"On a computer: scan with your phone to open it there. On a phone: show it to a friend to scan."},
   homeMsgs:{he:"הודעות למטיילים",en:"Messages for travelers"}, noHomeMsgs:{he:"אין הודעות חדשות כרגע. עדכונים חשובים יופיעו כאן.",en:"No new messages right now. Important updates will appear here."},
   msgsTitle:{he:"הודעות ליום הזה",en:"Messages for this day"}, noMsgs:{he:"אין הודעות כרגע. עדכונים כמו שעת יציאה בבוקר יופיעו כאן.",en:"No messages yet. Updates like the morning departure time will appear here."},
@@ -389,9 +412,25 @@ const TRAIN_SVG = (()=>{
 let deferredPrompt=null;
 const isStandalone=()=>{ try{ return matchMedia("(display-mode: standalone)").matches || navigator.standalone===true; }catch(e){ return false; } };
 window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; if(!location.hash||location.hash==="#home") render(); });
+window.__renderPush = function(){
+  const el = document.getElementById("pushCard"); if(!el) return;
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const supported = "Notification" in window && "serviceWorker" in navigator;
+  let body;
+  if(ios && !isStandalone()) body = `<p class="muted" style="margin:6px 0 0;font-size:.9rem">${t(UI.pushIos)}</p>`;
+  else if(!supported) body = `<p class="muted" style="margin:6px 0 0;font-size:.9rem">${t(UI.pushNo)}</p>`;
+  else if(Notification.permission==="granted" && (!window.__os || window.__os.User.PushSubscription.optedIn!==false)) body = `<p style="margin:6px 0 0;font-weight:500">${t(UI.pushOn)}</p>`;
+  else if(Notification.permission==="denied") body = `<p class="muted" style="margin:6px 0 0;font-size:.9rem">${t(UI.pushBlocked)}</p>`;
+  else body = `<button class="btn saffron" type="button" id="pushBtn" style="margin-top:8px">${t(UI.pushBtn)}</button>`;
+  el.innerHTML = `<h2 style="font-size:1.2rem">🔔 ${t(UI.pushH)}</h2><p class="muted" style="margin:4px 0 0;font-size:.9rem">${t(UI.pushP)}</p>${body}`;
+};
+document.addEventListener("click",async e=>{ if(!e.target.closest("#pushBtn")) return;
+  try{ if(window.__os){ await window.__os.Notifications.requestPermission(); if(window.__os.User.PushSubscription.optedIn===false) await window.__os.User.PushSubscription.optIn(); } else if("Notification" in window){ await Notification.requestPermission(); } }catch(err){ console.warn(err); }
+  window.__renderPush();
+});
 document.addEventListener("click",e=>{ if(e.target.closest("#shareBtn")) navigator.share({title:document.title,url:"https://paradesi-synagogue.github.io/paradesi-inauguration/"}).catch(()=>{}); });
 document.addEventListener("click",async e=>{ if(e.target.closest("#installBtn")&&deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice.catch(()=>{}); deferredPrompt=null; render(); } });
-if("serviceWorker" in navigator && location.protocol==="https:"){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
+if("serviceWorker" in navigator && location.protocol==="https:"){ navigator.serviceWorker.register("OneSignalSDKWorker.js",{scope:"./"}).catch(()=>{}); }
 // ---- views ----
 function tabs(active){
   const items=[["home",UI.home],["before",UI.before],["week-1",UI.w1],["week-2",UI.w2],["info",UI.info]];
@@ -429,7 +468,7 @@ function viewHome(){
   ${`<div class="card install" id="installCard" ${isStandalone()?"hidden":""}><div class="zem"><div class="cv" style="background:linear-gradient(160deg,var(--saffron),#c96a17);color:#fff">📲</div><div style="min-width:0"><h2 style="font-size:1.25rem">${t(UI.install)}</h2>
  <p class="muted" style="margin:4px 0 8px;font-size:.9rem">${t(UI.installSub)}</p>
  ${deferredPrompt?`<button class="btn saffron" type="button" id="installBtn">⬇️ ${t(UI.installBtn)}</button>`:""}
- <details><summary>${t(UI.howto)}</summary><p style="margin:6px 0"><b>🍎 iPhone:</b> ${t(UI.ios)}</p><p style="margin:6px 0"><b>🤖 Android:</b> ${t(UI.android)}</p></details></div></div></div>`}` + note + `<div class="card qrcard"><img src="img/qr.svg" alt="QR"><div style="min-width:0"><h2 style="font-size:1.2rem">📱 ${t(UI.qrH)}</h2><p class="muted" style="margin:4px 0 8px;font-size:.88rem">${t(UI.qrP)}</p>${navigator.share?`<button class="btn ghost" type="button" id="shareBtn">🔗 ${t(UI.share)}</button>`:""}</div></div>` + about + `
+ <details><summary>${t(UI.howto)}</summary><p style="margin:6px 0"><b>🍎 iPhone:</b> ${t(UI.ios)}</p><p style="margin:6px 0"><b>🤖 Android:</b> ${t(UI.android)}</p></details></div></div></div>`}` + note + `<div class="card pushcard" id="pushCard"></div>` + `<div class="card qrcard"><img src="img/qr.svg" alt="QR"><div style="min-width:0"><h2 style="font-size:1.2rem">📱 ${t(UI.qrH)}</h2><p class="muted" style="margin:4px 0 8px;font-size:.88rem">${t(UI.qrP)}</p>${navigator.share?`<button class="btn ghost" type="button" id="shareBtn">🔗 ${t(UI.share)}</button>`:""}</div></div>` + about + `
   <div class="section-head"><div class="eyebrow">${t(UI.chooseWeek)}</div></div>
   <div class="weeks">${T.weeks.map(w=>`<a class="week" href="#week-${w.id}"><img src="${w.id===1?"img/day4.jpg":"img/garden.jpg"}" alt=""><div class="tx" style="width:100%"><b>${esc(t(w))}</b><small>${esc(t(w.sub))}</small>${w.id===1?`<div class="trainwrap">${TRAIN_SVG}</div>`:""}</div></a>`).join("")}</div>
 
@@ -577,6 +616,7 @@ function render(scroll){
   tabs(tab); document.getElementById("app").innerHTML=html;
   const nm=store.get("pe-name",""); document.querySelectorAll(".u-name").forEach(i=>i.value=nm);
   loadGallery();
+  if(window.__renderPush) window.__renderPush();
 }
 document.addEventListener("change",e=>{
   const el=e.target;
