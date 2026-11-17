@@ -322,10 +322,10 @@ const UI = {
   anthem:{he:"ההמנון הלאומי של הודו · ג׳נה גנה מנה",en:"India’s national anthem · Jana Gana Mana"}, anthemNote:{he:"מילים: רבינדרנת טאגור. השירה נמשכת כ־52 שניות. כשמנגנים את ההמנון עומדים בשקט, מתוך כבוד.",en:"Words by Rabindranath Tagore. Singing it takes about 52 seconds. When the anthem plays, we stand quietly out of respect."}, meaning:{he:"מה פירוש המילים?",en:"What do the words mean?"}, listenAnthem:{he:"להאזנה למנגינה",en:"Listen to the melody"},
   newMsg:{he:"חדש",en:"New"}, newMsgs:{he:"חדשות",en:"new"}, olderMsgs:{he:"הודעות קודמות",en:"Earlier messages"}, until:{he:"בתוקף עד",en:"Valid until"},
   share:{he:"שיתוף הקישור",en:"Share the link"},
-  pushH:{he:"התראות לטלפון",en:"Phone notifications"},
+  pushH:{he:"התראות",en:"Notifications"},
   pushP:{he:"קבלו התראה על הודעה חשובה, גם כשהאתר סגור. צריך רק חיבור לאינטרנט, וגלישה סלולרית מספיקה.",en:"Get an alert for important messages, even when the site is closed. Mobile data is enough."},
   pushBtn:{he:"🔔 אישור קבלת התראות",en:"🔔 Allow notifications"},
-  pushOn:{he:"✅ ההתראות פעילות בטלפון הזה.",en:"✅ Notifications are on for this device."},
+  pushOn:{he:"✅ ההתראות פעילות במכשיר הזה.",en:"✅ Notifications are on for this device."},
   pushBlocked:{he:"ההתראות חסומות בדפדפן. כדי לאפשר: הגדרות הדפדפן ← הגדרות אתר ← התראות ← לאפשר לאתר הזה.",en:"Notifications are blocked. Allow them in your browser's site settings."},
   pushIos:{he:"באייפון: קודם מוסיפים את האתר למסך הבית (בכרטיס למעלה), פותחים אותו משם, ואז לוחצים כאן.",en:"On iPhone: first add the site to your home screen (card above), open it from there, then tap here."},
   pushNo:{he:"הדפדפן הזה לא תומך בהתראות. נסו בכרום או בספארי מעודכן.",en:"This browser does not support notifications. Try an up-to-date Chrome or Safari."},
@@ -419,7 +419,7 @@ window.__renderPush = function(){
   let body;
   if(ios && !isStandalone()) body = `<p class="muted" style="margin:6px 0 0;font-size:.9rem">${t(UI.pushIos)}</p>`;
   else if(!supported) body = `<p class="muted" style="margin:6px 0 0;font-size:.9rem">${t(UI.pushNo)}</p>`;
-  else if(Notification.permission==="granted" && (!window.__os || window.__os.User.PushSubscription.optedIn!==false)) body = `<p style="margin:6px 0 0;font-weight:500">${t(UI.pushOn)}</p>`;
+  else if(Notification.permission==="granted" && window.__os && window.__os.User.PushSubscription.optedIn===true) body = `<p style="margin:6px 0 0;font-weight:500">${t(UI.pushOn)}</p>`;
   else if(Notification.permission==="denied") body = `<p class="muted" style="margin:6px 0 0;font-size:.9rem">${t(UI.pushBlocked)}</p>`;
   else body = `<button class="btn saffron" type="button" id="pushBtn" style="margin-top:8px">${t(UI.pushBtn)}</button>`;
   el.innerHTML = `<h2 style="font-size:1.2rem">🔔 ${t(UI.pushH)}</h2><p class="muted" style="margin:4px 0 0;font-size:.9rem">${t(UI.pushP)}</p>${body}`;
