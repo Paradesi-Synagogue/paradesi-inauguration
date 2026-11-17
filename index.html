@@ -636,7 +636,9 @@ document.addEventListener("drop",e=>{ const u=e.target.closest&&e.target.closest
 document.getElementById("langBtn").onclick=()=>{ lang=lang==="he"?"en":"he"; try{localStorage.setItem("pe-lang",lang)}catch(e){} render(); };
 window.addEventListener("hashchange",()=>{ render(); const n=document.querySelector("nav.tabs"); window.scrollTo({top:location.hash.startsWith("#day-")||location.hash.startsWith("#week-")?n.offsetTop:0}); });
 render(); loadLive(); setInterval(()=>{ if(!document.hidden) loadLive(); },5*60*1000);
-document.addEventListener("visibilitychange",()=>{ if(!document.hidden) loadLive(); });
+function clearBadge(){ try{ if(navigator.clearAppBadge) navigator.clearAppBadge().catch(()=>{}); caches.open("paradesi-badge").then(c=>c.delete("./__badge-count")).catch(()=>{}); }catch(e){} }
+clearBadge();
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ loadLive(); clearBadge(); } });
 })();
 </script>
 </body>
